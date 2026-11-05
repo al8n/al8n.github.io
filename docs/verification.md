@@ -1,4 +1,4 @@
-# Verification record - 2026-11-05
+# Verification record - 2026-11-06
 
 Overview and CV contain no project cards or registry metric requests. The dedicated catalog has 31 project cards across ten categories: the nine categories in the owner's Discord screenshots plus storage engines. Thirty cards link to verified public repositories; pql exposes only its owner-provided name and category.
 
@@ -7,9 +7,11 @@ Overview and CV contain no project cards or registry metric requests. The dedica
 | Astro and TypeScript diagnostics | Passed: 25 files, zero errors, warnings, or hints |
 | Production build | Passed: four prerendered pages, 31 cards, 55 internal references, anchors, JSON-LD, PDF data consistency, and social asset |
 | Local regression checks | Passed: ten checks, including exact category membership, one card per project, private-source link omission, selected-project emphasis in Projects, validated totals, cache freshness, and paced API pagination |
-| Public PDF | Passed: two A4 pages, 6 links, selectable text; both rasterized pages visually inspected |
+| Public PDF | Passed: two A4 pages, 6 links, selectable text; aligned headers, skill columns, right-aligned dates, and corrected frame-padding widths; both pages rasterized and inspected |
 | Source/build confidentiality | Passed: privately supplied terms scanned across source/output and PDF text/metadata; no restricted terms logged |
 | Manual responsive review | Passed at 1440, 1024, 768, and 390 CSS pixels; no horizontal overflow; mobile dark-mode cards inspected |
+| CV performance content | The owner-approved concurrency redesign, thread-per-core architecture, busy-loop execution, and p99.9 latency work are included in both web and PDF data; employer remains anonymous and no measured results were invented |
+| CV alignment | Heading and body left edges match at 390, 768, 1024, and 1440 CSS pixels; dates align to the role header on desktop, and stack on mobile; tablet CV uses full content width |
 | Navigation and detailed CV | Passed manually: Overview to CV to Projects transitions, theme preservation, filtered-project return, four detailed roles and four expertise descriptions; mobile/tablet/laptop views have no horizontal overflow |
 | Manual filtering | All ten filters returned correct counts; All projects returned 31; pql has no outbound link; browser reported no warnings/errors |
 | Public project evidence | Thirty public, non-archived repositories and their README/root manifests retrieved directly through GitHub |
@@ -20,4 +22,4 @@ Overview and CV contain no project cards or registry metric requests. The dedica
 
 Current release results and screenshots are available in [GitHub Actions](https://github.com/al8n/al8n.github.io/actions/workflows/deploy.yml). Its `browser-review` artifact retains screenshots and the JSON result for seven days. The local executor prevents a separate headless browser process, so the complete automated matrix runs on Ubuntu 24.04 in CI. Local visual checks use the supported browser.
 
-The production build emits an upstream Vite unused-import warning inside Astro's asset helper; there are no application diagnostics. Automatic publication from main is approved and enabled, with Pages configured to use GitHub Actions. The previous automatic deployment passed in [run 42048189797](https://github.com/al8n/al8n.github.io/actions/runs/42048189797); each new release is verified through its own completed run and live-route checks.
+The production build emits an upstream Vite unused-import warning inside Astro's asset helper; there are no application diagnostics. Automatic publication from main is approved and enabled, with Pages configured to use GitHub Actions. The previous automatic deployment passed in [run 42053449843](https://github.com/al8n/al8n.github.io/actions/runs/42053449843); each new release is verified through its own completed run and live-route checks.

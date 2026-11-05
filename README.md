@@ -114,6 +114,8 @@ The browser suite also checks navigation without document reloads, the non-nativ
 
 ## Confidentiality
 
+The public CV uses aligned experience headers and right-aligned date metadata, with stacked metadata on mobile. PDF table widths account for the ReportLab frame padding so skill labels, role headers, and body paragraphs share their left edge.
+
 Only the public CV belongs in this repository. Current employment uses the approved anonymous employer description. Private recruiting résumés and internal materials must remain outside this checkout and Git history. Search exclusions and robots directives do not make published files private.
 
 Before a release, supply `PRIVATE_CONTENT_DENYLIST` as a private JSON array of restricted names, aliases, and identifying terminology. Do not put its values in a tracked file, command documentation, workflow YAML, or commit message. Use a private shell session or GitHub Actions secret. Run:

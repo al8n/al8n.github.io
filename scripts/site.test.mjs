@@ -67,6 +67,8 @@ test('CV keeps detailed, public-safe role context and education', () => {
   }
   assert.ok(html.includes(escape(profile.education.award)));
   assert.ok(html.includes('expertise-grid'));
+  for(const term of ['concurrency model','thread-per-core','busy-loop','p99.9 tail latency']) assert.ok(html.includes(term));
+  assert.equal((html.match(/class="experience-heading"/g)||[]).length,4);
 });
 
 test('public cards use primary-crate download statistics and private cards make no registry request', () => {

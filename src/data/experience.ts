@@ -14,12 +14,12 @@ export const experience: Experience[] = [
     role: 'Senior Rust Systems Engineer',
     start: 'Jan 2026', end: 'Present', arrangement: 'Full-time · Remote',
     overview: 'Build and maintain Rust infrastructure for performance-sensitive, real-time financial systems, with a focus on asynchronous networking, concurrent processing, and reliable production behavior.',
-    scope: ['Rust', 'Async networking', 'Concurrency', 'Production reliability'],
+    scope: ['Rust', 'Thread-per-core', 'Busy loop', 'p99.9 latency'],
     bullets: [
-      'Develop and maintain performance-sensitive Rust infrastructure for real-time financial systems.',
-      'Work on asynchronous networking, concurrent data pipelines, and distributed data processing.',
-      'Improve production reliability, latency, and resource efficiency.',
-      'Build and maintain robust concurrent systems as part of the infrastructure supporting real-time processing.',
+      'Redesigned the concurrency model around a thread-per-core architecture.',
+      'Used busy-loop execution to optimize p99.9 tail latency in performance-sensitive processing paths.',
+      'Develop and maintain asynchronous networking and concurrent data pipelines for real-time financial systems.',
+      'Improve production reliability and resource efficiency across the Rust infrastructure.',
     ],
   },
   {

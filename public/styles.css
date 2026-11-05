@@ -1802,6 +1802,39 @@ svg {
     gap:24px;
   }
 }
+/* CV reading layout: aligned role headers and a single body column. */
+.cv-top.page-hero { padding:55px 0 36px; }
+.cv-top.page-hero h1 { font-size:76px; }
+.cv-top .cv-actions { margin-top:0; }
+.cv-section { padding-bottom:30px; margin-bottom:32px; }
+.cv-summary { font-size:15px; line-height:1.85; }
+.cv-content .cv-experience-entry { display:block; padding:28px 0; }
+.experience-heading { display:flex; justify-content:space-between; align-items:flex-start; gap:24px; }
+.experience-identity { min-width:0; }
+.cv-content .experience-identity h3 { font-size:18px; line-height:1.45; }
+.cv-content .experience-identity .company { font-size:14px; margin-top:4px; }
+.experience-meta { flex-shrink:0; text-align:right; padding-top:3px; }
+.cv-content .experience-meta .experience-date { font-size:11px; }
+.experience-meta .arrangement { font:11px/1.7 var(--sans); margin-top:5px; }
+.cv-experience-entry .experience-copy { max-width:78ch; margin-top:17px; }
+.cv-experience-entry .experience-overview { margin-top:0; }
+.cv-experience-entry .tags li { font-size:11px; }
+.cv-experience-entry .experience-bullets { margin-top:18px; }
+.cv-experience-entry .experience-bullets li+li { margin-top:9px; }
+.skills-list>div { font-size:13px; }
+@media(max-width:900px) {
+  .cv-layout { display:block; padding-top:0; }
+  .cv-nav { position:static; flex-direction:row; flex-wrap:wrap; gap:10px 24px; padding:23px 0; margin-bottom:32px; border-bottom:1px solid var(--border); }
+}
+@media(max-width:600px) {
+  .cv-top.page-hero { padding:38px 0 30px; }
+  .cv-top.page-hero h1 { font-size:62px; }
+  .cv-top .cv-actions { margin-top:24px; }
+  .experience-heading { flex-direction:column; gap:8px; }
+  .experience-meta { text-align:left; padding-top:0; }
+  .cv-content .experience-identity h3 { font-size:17px; }
+  .cv-experience-entry .experience-copy { margin-top:17px; }
+}
 @media(prefers-reduced-motion:reduce) {
   html {
     scroll-behavior:auto;
@@ -1886,6 +1919,7 @@ svg {
     break-inside:avoid;
   }
   .cv-content .experience-entry {
+    display:block;
     grid-template-columns:33mm 1fr;
     gap:5mm;
     padding:4mm 0;
