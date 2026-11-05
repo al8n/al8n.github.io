@@ -103,7 +103,7 @@ export function projectsContent() {
         <div class="project-filters" role="group" aria-label="Filter projects"><button data-filter="all" aria-pressed="true">All projects</button>${filters}</div>
         <div class="catalog-options">
           <p class="results-count mono" role="status" id="results-count">${projects.length} PROJECTS</p>
-          <label class="sort-control">Sort <select id="project-sort"><option value="recommended">Recommended</option><option value="downloads">Total downloads</option><option value="stars">GitHub stars</option><option value="name">Name A–Z</option></select></label>
+          <div class="sort-control"><label for="project-sort">Sort</label><select id="project-sort"><option value="recommended">Recommended</option><option value="downloads">Total downloads</option><option value="stars">GitHub stars</option><option value="name">Name A–Z</option></select></div>
           <div class="view-switch" role="group" aria-label="Project layout"><button data-view="grid" aria-pressed="true">Grid</button><button data-view="list" aria-pressed="false">List</button><button data-view="categories" aria-pressed="false">Categories</button></div>
         </div>
       </div>
