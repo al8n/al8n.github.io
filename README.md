@@ -112,16 +112,21 @@ npm run verify:privacy
 
 The script scans source, documentation, generated HTML/CSS/JS/JSON/XML, SVG assets, extracted PDF text and metadata, and local Git revisions. It does not print matched confidential strings. It fails closed if the private denylist is absent. If needed, set `PDF_PYTHON` to a Python interpreter with `pypdf` installed. Raster assets require visual review; a text scan is not OCR or a guarantee against indirect disclosure. The four legacy commits and eleven distinct text/PDF blobs were reviewed before replacement; no known employer-name variants were found. CI checks the full fetched Git history on every run.
 
-## Deploy after approval
+## Automatic deployment
 
-The replacement source is maintained in the private `al8n/al8n.github.io` repository. GitHub Pages remains disabled until the owner approves public content. See [docs/release-review.md](docs/release-review.md) for the release checklist.
+Production target: **https://al8n.github.io/**.
 
-1. Review the public pages, PDF, and generated assets. Obtain the owner's explicit approval of public content.
-2. Review the complete Git history before changing repository visibility. The legacy files were replaced in a normal commit, preserving earlier commits for rollback.
-3. Run `npm ci` and pass Astro, browser, external-link, and privacy checks. Inspect the `browser-review` artifact from GitHub Actions; it contains all viewport/theme screenshots.
-4. Add `PRIVATE_CONTENT_DENYLIST` as a GitHub Actions repository secret. Add the repository variable `PUBLIC_CONTENT_APPROVED` with value `true` only after content approval. Missing approval prevents artifact upload and deployment; missing private terms fails the confidentiality check.
-5. Set repository Settings → Pages → Source to GitHub Actions. Use the `github-pages` environment; configure required reviewer protection if desired.
-6. Push the reviewed content to `main` or run the prepared workflow. It verifies the site before the official Pages artifact and deployment actions run.
-7. Verify `https://al8n.github.io/`, `/projects/`, `/cv/`, `/resume.pdf`, and a missing route. A configured workflow alone is not evidence of a successful deployment.
+Every push to `main` automatically runs the Astro/TypeScript check, regression tests, reproducible PDF generation, privacy/history scan, and the full browser suite. A successful run uploads `dist/` and deploys it through GitHub Pages. Pull requests run verification without publishing. The workflow can also be started manually from the Actions tab.
 
-The Astro site is `https://al8n.github.io`, with no repository base prefix. Page routes use trailing slashes, and `404.html` is emitted at the root.
+Current configuration:
+
+- GitHub Pages build source: **GitHub Actions** (`workflow`).
+- Repository variable `PUBLIC_CONTENT_APPROVED`: `true`, enabled after the owner's public-deployment approval.
+- Repository secret `PRIVATE_CONTENT_DENYLIST`: configured privately; never add its values to source.
+- Verification runner: Ubuntu 24.04 with pinned Node and package dependencies.
+
+Set `PUBLIC_CONTENT_APPROVED` to `false` to pause publication while keeping verification active. Public content must continue to satisfy the confidentiality rules above.
+
+After a deployment, verify `/`, `/projects/`, `/cv/`, `/resume.pdf`, and a missing route. The workflow's completed deployment and the live responses are the release evidence. Screenshots and the browser report are retained for seven days in the run's `browser-review` artifact.
+
+The Astro site is `https://al8n.github.io`, with no repository base prefix. Page routes use trailing slashes, and `404.html` is emitted at the root. Keep the Pages source set to Actions so the old automatic Jekyll build does not process the source tree.

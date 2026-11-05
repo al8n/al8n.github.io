@@ -15,8 +15,8 @@
 | Local headless browser suite | Executor prevented launching a separate browser process; manual checks used the supported in-app browser |
 | Public project sources | All 16 public, non-archived repositories and their root Cargo manifests/READMEs retrieved directly through GitHub |
 | Crates.io HTML links | Environment returned HTTP 403; registry-page checks remain a publication follow-up |
-| Deployment | Not enabled; explicit public-content approval remains required |
+| Deployment | Owner-approved automatic deployment configured from `main` through GitHub Actions; the completed deployment run and live route responses verify each release |
 
 The production build emits an upstream Vite unused-import warning inside Astro's own asset helper; the build completes successfully. There are no application diagnostics.
 
-The `browser-review` artifact in GitHub Actions retains the full browser screenshots and JSON result report for seven days. The linked completed run verifies the application source; later documentation-only changes do not alter its behavior. The repository variable `PUBLIC_CONTENT_APPROVED` is not enabled. The existing legacy Pages task failed and skipped deployment; its build-source setting has not been changed.
+The `browser-review` artifact in GitHub Actions retains the full browser screenshots and JSON result report for seven days. The linked completed run verifies the application source; later documentation-only changes do not alter its behavior. The owner has approved public deployment. The repository variable `PUBLIC_CONTENT_APPROVED` is enabled and the Pages build source is `workflow`. The former legacy Pages task failed without deployment during the initial replacement; future releases use the verified Actions workflow.

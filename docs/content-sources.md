@@ -37,4 +37,4 @@ The public brief is the source for Freenet, Status/Nomos, and education dates an
 
 Astro GitHub Pages guidance: https://docs.astro.build/en/guides/deploy/github/
 
-The deployment uses static output and the official GitHub Pages upload/deploy actions. The existing private website repository was inspected directly. Its legacy Flutter files were replaced while preserving the four earlier commits. GitHub Pages was not enabled before replacement, and public deployment remains gated.
+The deployment uses static output and the official GitHub Pages upload/deploy actions. The existing private website repository was inspected directly. Its legacy Flutter files were replaced while preserving the four earlier commits. The former legacy Pages build failed without deployment during replacement. The owner has now approved public deployment through the GitHub Actions workflow.
