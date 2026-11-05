@@ -4,7 +4,7 @@ Reviewed on 2026-11-05. Role titles, dates, public responsibilities, contact inf
 
 ## Project verification
 
-Descriptions are conservative summaries of public repository READMEs, Cargo manifests, and, for hostaddr, its published Rust documentation. The 30 public repositories and their root manifests and READMEs were retrieved directly through the authenticated GitHub API for the expanded collection. The owner’s Discord screenshots supply the nine primary categories and project names; existing projects are retained, with a separate storage-engine category for skipdb. No star counts or performance benchmarks are shown. Download totals are fetched separately from the public registry API. The résumé's undated aggregate-download snapshot was omitted rather than presented as a current metric.
+Descriptions are conservative summaries of public repository READMEs, Cargo manifests, and, for hostaddr, its published Rust documentation. The 30 public repositories and their root manifests and READMEs were retrieved directly through the authenticated GitHub API for the expanded collection. The owner’s Discord screenshots supply the nine primary categories and project names; existing projects are retained, with a separate storage-engine category for skipdb. Cards use the public GitHub owner repository listing for stargazer counts and the public crates.io account listing for primary-crate download totals. The initial HTML includes a dated snapshot of both sources. The résumé's undated aggregate-download snapshot was omitted rather than presented as a current metric.
 
 | Project | Primary source | Scope reflected in this site |
 | --- | --- | --- |

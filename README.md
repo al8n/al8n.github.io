@@ -1,6 +1,6 @@
 # Al Liu — personal engineering website
 
-A static personal site for Rust systems engineering and open-source infrastructure. Includes a personal overview, a dedicated 31-project collection across 10 categories, a detailed public CV, a two-page public A4 résumé, and a custom 404 page. No backend, analytics, or remote fonts. Cards on the Projects page fetch public download totals from crates.io, with a ten-minute browser cache.
+A static personal site for Rust systems engineering and open-source infrastructure. Includes a personal overview, a dedicated 31-project collection across 10 categories, a detailed public CV, a two-page public A4 résumé, and a custom 404 page. No backend, analytics, or remote fonts. Projects supports grid, list, and category views. The default puts the maintainer’s four picks first and orders the remaining projects by total downloads. Public cards show primary-crate downloads and GitHub repository stars.
 
 ![Homepage preview](docs/preview-home.jpg)
 
@@ -49,7 +49,7 @@ src/
 public/
   styles.css                  Shared responsive, theme, and print styles
   theme-init.js, site.js       System theme, persisted overrides, print action
-  projects.js                 Animated progressive category filtering
+  projects.js                 Project layouts, sorting, and category filters
   downloads.js                Public crates.io totals and browser cache
   resume.pdf                  Sanitized public résumé
   favicon.svg                 Local identity asset
@@ -102,11 +102,13 @@ The browser suite checks the three main pages at 1440, 1024, 768, and 390 CSS pi
 
 `verify:links` makes network requests and distinguishes unverified links from successful responses. Cached search results and repository inspection do not prove every live URL responds today.
 
-## Project downloads and motion
+## Project metrics and motion
 
 Cards on the Projects page show the primary crate's total downloads across all versions. `caches-rs` maps to `caches`; other cards use the configured crate or project name. Workspace packages are not summed. Pql has no registry metric or request.
 
-`public/downloads.js` reads the public al8n account listing (`user_id=119762`, up to 100 crates per page), paces pagination to at most one request per second, and stores validated totals locally for ten minutes. It needs no credentials or backend. Switching categories makes no request. Counts are checked on page load when the cache expires, with the fetch time displayed; upstream batch processing and CDN caching mean these are not second-by-second counters. Failed refreshes preserve labeled cached counts; missing/failed data displays a dash and a registry link, never an invented zero. Overview, CV, and PDF contain no changing download counts. Opening Overview makes no registry request.
+`public/downloads.js` reads the public al8n account listing (`user_id=119762`, up to 100 crates per page), paces pagination to at most one request per second, and stores validated totals locally for ten minutes. It needs no credentials or backend. Switching categories makes no request. Counts are checked on page load when the cache expires, with the fetch time displayed; upstream batch processing and CDN caching mean these are not second-by-second counters. When the API is unreachable, the cards retain cached counts or the published snapshot and its date.
+
+GitHub stars come from the public owner repository listing, matched by full repository name and cached for one hour. Both counters are rendered in the initial HTML. Refresh the published fallback with `node scripts/snapshot-project-metrics.mjs`. Browser refreshes update both the displayed count and its sort order.
 
 Astro ClientRouter provides continuous page transitions with an animated fallback for browsers without native View Transitions. Category changes retain a short fade and vertical movement. Theme colors, navigation, links, cards, and buttons also transition. All motion respects reduced-motion settings. Theme, filter, download, and print controls reinitialize after page swaps; category history uses the same router, preserving browser back/forward behavior and the toolbar position.
 

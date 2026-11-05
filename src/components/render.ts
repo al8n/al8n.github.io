@@ -1,3 +1,5 @@
+import metrics from '../data/project-metrics.json' with { type: 'json' };
+import { groupProjects } from '../../public/project-order.js';
 import { profile, skills, expertise } from '../data/profile.ts';
 import { experience } from '../data/experience.ts';
 import { projects, categories, type Project } from '../data/projects.ts';
@@ -9,14 +11,6 @@ const arrow = '<span aria-hidden="true">↗</span>';
 const link = (href: string, label: string, cls = '') => `<a class="${cls}" href="${escape(href)}">${escape(label)} ${arrow}</a>`;
 const tags = (items: string[]) => `<ul class="tags" aria-label="Technical concepts">${items.map(item => `<li>${escape(item)}</li>`).join('')}</ul>`;
 const projectTitle = (project: Project) => project.github ? link(project.github, project.name) : escape(project.name);
-const projectLinks = (project: Project) => `<div class="project-links">${project.github ? link(project.github, 'Source on GitHub') : '<span class="source-unavailable">Source not public</span>'}${project.crate ? link(`https://crates.io/crates/${project.crate}`, 'Crates.io') : ''}</div>`;
-
-const projectDownloads = (project: Project) => {
-  if (!project.github) return '';
-  const crate = project.crate || project.name;
-  return `<div class="project-downloads" data-crate="${escape(crate)}"><a class="download-numbers" href="https://crates.io/crates/${escape(crate)}" title="${escape(crate)} primary crate statistics on crates.io"><strong data-download-total>—</strong><span>Total downloads</span></a><p data-download-updated>View statistics on crates.io ↗</p></div>`;
-};
-
 export const pageMeta = {
   '/': { title: `${profile.name} — ${profile.title}`, description: 'Personal engineering portfolio of Al Liu, focusing on Rust, distributed systems, networking, storage engines, and open-source infrastructure.' },
   '/projects/': { title: 'Open-source projects — Al Liu', description: 'Explore Al Liu’s Rust infrastructure libraries for parsing, distributed systems, networking, file I/O, codecs, caches, and data structures.' },
@@ -62,8 +56,60 @@ export function homeContent() {
 <section class="experience section" aria-labelledby="experience-title"><div class="section-heading"><div><p class="eyebrow">02 / EXPERIENCE</p><h2 id="experience-title">From protocols<br>to production.</h2></div><a class="text-link" href="/cv/">Full experience & education <span aria-hidden="true">→</span></a></div><div class="experience-list">${experience.map(e => experienceEntry(e)).join('')}</div></section>${contactBlock()}`;
 }
 
+const counts: Record<string, { downloads: number | null; stars: number | null }> = metrics.counts;
+const publishedDate = metrics.checkedAt.slice(0, 10);
+const metricText = (value: number | null | undefined) => value == null ? '—' : value.toLocaleString('en-US');
+
+function projectMetrics(project: Project) {
+  if (!project.github) return '<p class="source-unavailable">Source not public</p>';
+  const crate = project.crate || project.name;
+  const repo = new URL(project.github).pathname.slice(1);
+  const stats = counts[project.name];
+  return `<div class="project-downloads" data-crate="${escape(crate)}">
+    <div class="metric-pair">
+      <a href="https://crates.io/crates/${escape(crate)}"><span>Total downloads</span><strong data-download-total>${metricText(stats?.downloads)}</strong></a>
+      <a data-repo="${escape(repo)}" href="${escape(project.github)}/stargazers" title="GitHub stars as of ${publishedDate}"><span><i aria-hidden="true">☆</i> GitHub stars</span><strong data-star-total>${metricText(stats?.stars)}</strong></a>
+    </div>
+    <p data-download-updated>Downloads as of ${publishedDate}</p>
+  </div>`;
+}
+
+function projectCard(project: Project) {
+  const category = categories.find(c => c.id === project.category)!;
+  const stats = counts[project.name];
+  return `<article class="collection-card${project.spotlight ? ' collection-spotlight' : ''}" data-project="${escape(project.name)}" data-topic="${category.id}" data-downloads="${stats?.downloads ?? ''}" data-stars="${stats?.stars ?? ''}">
+    <div class="card-identity"><p class="card-topic">${escape(category.name)}</p><div class="collection-title"><h3>${projectTitle(project)}</h3></div></div>
+    ${project.spotlight ? `<div class="card-figure">${project.category === 'parsing' ? parsingDrawing(project.name === 'smear') : networkDrawing()}</div>` : ''}
+    <p class="collection-description">${escape(project.detail)}</p>${tags(project.concepts)}
+    ${project.provenance ? `<p class="provenance">${escape(project.provenance)}</p>` : ''}
+    ${projectMetrics(project)}
+  </article>`;
+}
+
 export function projectsContent() {
-  return `<section class="page-hero"><p class="eyebrow">THE OPEN-SOURCE COLLECTION</p><h1>Built to be<br>built upon<span class="accent">.</span></h1><p class="page-intro">${projects.length} projects across ${categories.length} categories. From lexers to distributed systems, a collection of infrastructure libraries with a focus on correctness, composability, and performance.</p><div class="page-hero-links">${link(profile.github, 'GitHub profile')}${link(profile.crates, 'Published crates')}</div></section><div class="projects-toolbar"><nav class="category-nav" aria-label="Project categories">${categories.map(c => `<a href="#${c.id}">${c.short}</a>`).join('')}</nav><div class="project-filters" hidden aria-label="Filter projects"><button data-filter="all" aria-pressed="true">All projects <span>${projects.length}</span></button>${categories.map(c => `<button data-filter="${c.id}" aria-pressed="false">${c.short}</button>`).join('')}</div><p class="results-count mono" role="status" aria-live="polite" id="results-count">${projects.length} PROJECTS</p></div><div class="project-collection">${categories.map((category, index) => `<section class="project-category" id="${category.id}" data-category="${category.id}" aria-labelledby="heading-${category.id}"><div class="category-heading"><span class="eyebrow">${String(index + 1).padStart(2, '0')} / ${projects.filter(p => p.category === category.id).length} PROJECT${projects.filter(p => p.category === category.id).length === 1 ? '' : 'S'}</span><h2 id="heading-${category.id}">${escape(category.name)}</h2><p>${escape(category.description)}</p></div><div class="collection-grid">${projects.filter(p => p.category === category.id).map(p => `<article class="collection-card${p.spotlight ? ' collection-spotlight' : ''}" data-project="${escape(p.name)}"><div class="collection-title"><h3>${projectTitle(p)}</h3><span class="mono ${p.spotlight ? 'spotlight-label' : 'rust-dot'}">${p.spotlight ? 'SELECTED' : p.github ? 'RUST' : 'PRIVATE'}</span></div>${p.spotlight ? (p.category === 'parsing' ? parsingDrawing(p.name === 'smear') : networkDrawing()) : ''}<p class="collection-description">${escape(p.detail)}</p>${tags(p.concepts)}${p.provenance ? `<p class="provenance">${escape(p.provenance)}</p>` : ''}${projectDownloads(p)}${projectLinks(p)}</article>`).join('')}</div></section>`).join('')}</div><div class="project-endnote"><p>Public projects link to their source. Download counts cover each project’s primary crate, across all versions, including dependency and CI downloads. Checked on page load with a 10-minute cache; upstream statistics can lag. Private projects show only their public name and category.</p><a class="text-link" href="/cv/">The experience behind the code <span aria-hidden="true">→</span></a></div>${contactBlock()}`;
+  const records = projects.map(p => ({
+    name: p.name, category: p.category, featured: !!p.spotlight,
+    downloads: counts[p.name]?.downloads, stars: counts[p.name]?.stars, project: p,
+  }));
+  const groups: { title: string; items: typeof records }[] = groupProjects(records, 'grid', 'recommended', categories);
+  const filters = categories.map(c => `<button data-filter="${c.id}" data-label="${escape(c.name)}" aria-pressed="false">${escape(c.short)}</button>`).join('');
+  const anchors = categories.map(c => `<span class="category-anchor" id="${c.id}"></span>`).join('');
+  const noScriptFilters = categories.map(c => `#catalog:has(#${c.id}:target) .collection-card:not([data-topic="${c.id}"]),#catalog:has(#${c.id}:target) .project-category:not(:has([data-topic="${c.id}"])){display:none}`).join('');
+  const section = (title: string, cards: string) => `<section class="project-category"><div class="catalog-heading"><h2>${escape(title)}</h2></div><div class="collection-grid">${cards}</div></section>`;
+  return `<section class="catalog-hero"><div><p class="eyebrow">THE OPEN-SOURCE COLLECTION</p><h1>Project index<span class="accent">.</span></h1></div><div class="catalog-intro"><p>${projects.length} projects across ${categories.length} categories, from language tooling to distributed systems.</p><div class="page-hero-links">${link(profile.github, 'GitHub profile')}${link(profile.crates, 'Published crates')}</div></div></section>
+    <div class="catalog" id="catalog">${anchors}
+      <noscript><style>${noScriptFilters}</style><nav class="category-nav" aria-label="Project categories"><a href="#catalog">All projects</a>${categories.map(c => `<a href="#${c.id}">${escape(c.short)}</a>`).join('')}</nav></noscript>
+      <div class="catalog-controls" hidden>
+        <div class="project-filters" role="group" aria-label="Filter projects"><button data-filter="all" aria-pressed="true">All projects</button>${filters}</div>
+        <div class="catalog-options">
+          <p class="results-count mono" role="status" id="results-count">${projects.length} PROJECTS</p>
+          <label class="sort-control">Sort <select id="project-sort"><option value="recommended">Recommended</option><option value="downloads">Total downloads</option><option value="stars">GitHub stars</option><option value="name">Name A–Z</option></select></label>
+          <div class="view-switch" role="group" aria-label="Project layout"><button data-view="grid" aria-pressed="true">Grid</button><button data-view="list" aria-pressed="false">List</button><button data-view="categories" aria-pressed="false">Categories</button></div>
+        </div>
+      </div>
+      <div class="project-collection" data-layout="grid">${groups.map(group => section(group.title, group.items.map(item => projectCard(item.project)).join(''))).join('')}</div>
+    </div>
+    <div class="project-endnote"><p>Downloads cover each project’s primary crate across all versions. Stars come from the public GitHub repository.</p><a class="text-link" href="/cv/">View CV <span aria-hidden="true">→</span></a></div>${contactBlock()}`;
 }
 
 export function cvContent() {

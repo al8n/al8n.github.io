@@ -12,13 +12,14 @@ export function parseCrateStats(crates) {
   }));
 }
 
-export async function fetchCrateStats() {
+export async function fetchCrateStats(userAgent) {
   const stats = Object.create(null);
   let pages = 1;
   for (let page = 1; page <= pages; page++) {
     // One account listing instead of one request per card; respect the API's 1 request/second limit.
     if (page > 1) await new Promise(resolve => setTimeout(resolve, 1100));
     const response = await fetch(`https://crates.io/api/v1/crates?user_id=${userId}&per_page=100&page=${page}`, {
+      headers: userAgent ? { 'User-Agent': userAgent } : undefined,
       credentials: 'omit', referrerPolicy: 'strict-origin-when-cross-origin', signal: AbortSignal.timeout(12000),
     });
     if (!response.ok) throw new Error('Crates.io statistics unavailable');
@@ -54,15 +55,17 @@ async function showDownloads() {
     for (const card of cards) {
       const stats = snapshot.stats[card.dataset.crate];
       card.dataset.downloadsState = stats ? (stale ? 'cached' : 'ready') : 'unavailable';
+      card.closest('article').dataset.downloads = stats?.total ?? '';
       card.querySelector('[data-download-total]').textContent = stats ? numbers.format(stats.total) : '—';
       const updated = card.querySelector('[data-download-updated]');
       updated.textContent = stats ? `${stale ? 'Cached · ' : ''}Checked ${dates.format(snapshot.checkedAt)}` : 'Stats unavailable · view on crates.io ↗';
       updated.title = stats ? `Primary crate only: ${card.dataset.crate}. Fetched ${new Date(snapshot.checkedAt).toISOString()}. Cached for up to 10 minutes. Crates.io statistics are processed in batches.` : 'A missing response is not a zero download count.';
     }
+    cards[0].closest('.project-collection')?.dispatchEvent(new Event('metrics-updated'));
   }
   if (cached) render(cached, !cached.fresh);
   if (cached?.fresh) return;
-  if (!cached) for (const card of cards) card.querySelector('[data-download-updated]').textContent = 'Checking crates.io…';
+  
   try {
     pendingStats ||= fetchCrateStats().finally(() => { pendingStats = null; });
     const snapshot = await pendingStats;
@@ -74,8 +77,12 @@ async function showDownloads() {
       for (const card of cards) card.querySelector('[data-download-updated]').textContent += ' · refresh unavailable';
     } else {
       for (const card of cards) {
-        card.dataset.downloadsState = 'unavailable';
-        card.querySelector('[data-download-updated]').textContent = 'Stats unavailable · view on crates.io ↗';
+        if (card.closest('article').dataset.downloads !== '') {
+          card.dataset.downloadsState = 'snapshot';
+        } else {
+          card.dataset.downloadsState = 'unavailable';
+          card.querySelector('[data-download-updated]').textContent = 'Stats unavailable · view on crates.io ↗';
+        }
       }
     }
   }

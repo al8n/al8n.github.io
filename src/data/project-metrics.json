@@ -1,0 +1,125 @@
+{
+  "checkedAt": "2026-11-05T17:01:17.618Z",
+  "counts": {
+    "stretto": {
+      "downloads": 465636,
+      "stars": 435
+    },
+    "caches-rs": {
+      "downloads": 178864,
+      "stars": 112
+    },
+    "buffo": {
+      "downloads": 36,
+      "stars": 3
+    },
+    "varing": {
+      "downloads": 47764,
+      "stars": 6
+    },
+    "fs4": {
+      "downloads": 78950878,
+      "stars": 121
+    },
+    "fmmap": {
+      "downloads": 404189,
+      "stars": 119
+    },
+    "memmapix": {
+      "downloads": 244746,
+      "stars": 42
+    },
+    "emailaddr": {
+      "downloads": 104,
+      "stars": 1
+    },
+    "hostaddr": {
+      "downloads": 95592,
+      "stars": 3
+    },
+    "iradix": {
+      "downloads": 10250,
+      "stars": 2
+    },
+    "smol-bytes": {
+      "downloads": 49700,
+      "stars": 4
+    },
+    "skl": {
+      "downloads": 71593,
+      "stars": 66
+    },
+    "tokora": {
+      "downloads": 10041,
+      "stars": 13
+    },
+    "smear": {
+      "downloads": 1785,
+      "stars": 1
+    },
+    "memspan": {
+      "downloads": 10971,
+      "stars": 4
+    },
+    "cronp": {
+      "downloads": 383,
+      "stars": 0
+    },
+    "memberlist": {
+      "downloads": 50737,
+      "stars": 144
+    },
+    "serf": {
+      "downloads": 20492,
+      "stars": 67
+    },
+    "agnostic": {
+      "downloads": 149684,
+      "stars": 29
+    },
+    "hick": {
+      "downloads": 952,
+      "stars": 40
+    },
+    "hardware-address": {
+      "downloads": 224993,
+      "stars": 1
+    },
+    "iprfc": {
+      "downloads": 343514,
+      "stars": 3
+    },
+    "iprobe": {
+      "downloads": 220173,
+      "stars": 3
+    },
+    "getifs": {
+      "downloads": 216198,
+      "stars": 27
+    },
+    "peekable": {
+      "downloads": 223191,
+      "stars": 24
+    },
+    "among": {
+      "downloads": 66129,
+      "stars": 7
+    },
+    "atomic-time": {
+      "downloads": 2937188,
+      "stars": 11
+    },
+    "wg": {
+      "downloads": 558231,
+      "stars": 37
+    },
+    "whichdisk": {
+      "downloads": 19740,
+      "stars": 4
+    },
+    "skipdb": {
+      "downloads": 8252,
+      "stars": 239
+    }
+  }
+}

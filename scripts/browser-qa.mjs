@@ -8,7 +8,16 @@ const browser=await chromium.launch();
 const problems=[];const results=[];
 const fixture={meta:{total:projects.filter(p=>p.github).length},crates:projects.filter(p=>p.github).map((p,index)=>({id:p.crate||p.name,downloads:p.name==='fs4'?78950878:1000+index,recent_downloads:100+index}))};
 const statsEndpoint=/^https:\/\/crates\.io\/api\/v1\/crates\?/;
-const mockStats = context=>context.route(statsEndpoint,route=>route.fulfill({json:fixture,headers:{'access-control-allow-origin':'*'}}));
+const starsEndpoint = /^https:\/\/api\.github\.com\/users\/al8n\/repos\?/;
+const starsFixture = projects.filter(p => p.github).map((p, index) => ({
+ full_name: new URL(p.github).pathname.slice(1), private: false,
+ stargazers_count: p.name === 'tokora' ? 9876 : index,
+}));
+const mockStars = context => context.route(starsEndpoint, route => route.fulfill({ json: starsFixture }));
+const mockStats = async context => {
+ await mockStars(context);
+ await context.route(statsEndpoint, route => route.fulfill({json:fixture,headers:{'access-control-allow-origin':'*'}}));
+};
 try {
  for(const width of [1440,1024,768,390]) {
   for(const theme of ['light','dark']) {
@@ -32,6 +41,7 @@ try {
   }
  }
  const context=await browser.newContext({viewport:{width:390,height:844},colorScheme:'light',reducedMotion:'no-preference'});
+ await mockStars(context);
  let statsRequests=0;
  await context.route(statsEndpoint,route=>{statsRequests++;return route.fulfill({json:fixture});});
  const page=await context.newPage();
@@ -54,6 +64,25 @@ try {
  assert.equal(await page.locator('[data-crate=fs4] [data-download-total]').innerText(),'78,950,878');
  assert.equal(await page.locator('[data-project=pql] [data-crate]').count(),0);
  assert.equal(statsRequests,1,'Fresh statistics should be reused across navigation');
+ const names = () => page.locator('.collection-card:visible').evaluateAll(cards => cards.map(card => card.dataset.project));
+ assert.deepEqual((await names()).slice(0,5), ['tokora','smear','memberlist','serf','fs4']);
+ await page.getByRole('button',{name:'List',exact:true}).click();
+ await page.getByLabel('Sort',{exact:true}).selectOption('downloads');
+ assert.equal((await names())[0], 'fs4');
+ await page.getByLabel('Sort',{exact:true}).selectOption('stars');
+ await page.waitForFunction(()=>document.querySelector('[data-project="tokora"] [data-star-total]').textContent==='9,876');
+ assert.equal((await names())[0], 'tokora');
+ assert.equal((await names()).at(-1), 'pql');
+ await page.reload();
+ assert.equal(await page.locator('[data-view=list]').getAttribute('aria-pressed'), 'true');
+ assert.equal(await page.getByLabel('Sort',{exact:true}).inputValue(), 'stars');
+ await page.getByRole('button',{name:'Categories',exact:true}).click();
+ assert.equal(await page.locator('.project-category:visible').count(), categories.length);
+ assert.equal(await page.locator('[data-star-total]').count(), 30);
+ await page.getByLabel('Sort',{exact:true}).selectOption('name');
+ await page.getByRole('button',{name:'Grid',exact:true}).click();
+ assert.equal((await names())[0], 'agnostic');
+ await page.getByLabel('Sort',{exact:true}).selectOption('recommended');
  await page.getByRole('button',{name:'Networking',exact:true}).click();
  assert.ok(await page.locator('.project-collection').evaluate(e=>e.getAnimations().length>0),'Category transition should animate');
  await page.emulateMedia({reducedMotion:'reduce'});
@@ -70,7 +99,7 @@ try {
  await page.getByRole('button',{name:'Storage',exact:true}).click();
  await page.waitForURL('**/projects/#storage');
  await page.reload(); assert.equal(await page.locator('.collection-card:visible').count(),1);
- await page.goBack(); await page.waitForFunction(expected=>document.querySelectorAll('.project-category:not([hidden]) .collection-card').length===expected,projects.length);
+ await page.goBack(); await page.waitForFunction(expected=>document.querySelectorAll('.collection-card:not([hidden])').length===expected,projects.length);
  assert.equal(await page.locator('.collection-card:visible').count(),projects.length);
  assert.equal(await page.locator('[data-project="pql"] a').count(),0);
  await page.goto(base+'/projects/#parsing');
@@ -86,7 +115,7 @@ try {
  assert.equal(await page.locator('[data-project]').count(),0);
  assert.equal(await page.evaluate(()=>performance.timeOrigin),routedOrigin);
  await page.goBack();await page.waitForURL('**/projects/#parsing');
- await page.waitForFunction(()=>document.querySelectorAll('.project-category:not([hidden]) .collection-card').length===5);
+ await page.waitForFunction(()=>document.querySelectorAll('.collection-card:not([hidden])').length===5);
  await page.goForward();await page.waitForURL('**/cv/');
  await page.locator('#print-cv').waitFor();
  await page.locator('#theme-toggle').click();
@@ -110,15 +139,20 @@ try {
  assert.equal(await noJSPage.locator('.collection-card:visible').count(),projects.length);
  assert.equal(await noJSPage.locator('.category-nav').isVisible(),true);
  assert.equal(await noJSPage.locator('.project-filters').isVisible(),false);
+ await noJSPage.getByRole('link',{name:'Codec',exact:true}).click();
+ assert.equal(await noJSPage.locator('.collection-card:visible').count(),2);
  await noJS.close();
  const offline=await browser.newContext();
+ await offline.route(starsEndpoint,route=>route.abort());
  await offline.route(statsEndpoint,route=>route.abort());
  const offlinePage=await offline.newPage();await offlinePage.goto(base+'/projects/');
- await offlinePage.locator('[data-downloads-state=unavailable]').first().waitFor();
- assert.equal(await offlinePage.locator('[data-download-total]').first().innerText(),'—');
+ await offlinePage.locator('[data-downloads-state=snapshot]').first().waitFor();
+ assert.match(await offlinePage.locator('[data-project=fs4] [data-download-total]').innerText(), /^[0-9,]+$/);
+ assert.match(await offlinePage.locator('[data-project=tokora] [data-star-total]').innerText(), /^[0-9,]+$/);
  await offline.close();
  const stale=await browser.newContext();
  await stale.addInitScript(()=>localStorage.setItem('al-crate-downloads-v1',JSON.stringify({checkedAt:Date.now()-3600000,stats:{tokora:{total:321,recent:12},smear:{total:0,recent:0},memberlist:{total:100,recent:50},serf:{total:200,recent:80}}})));
+ await mockStars(stale);
  await stale.route(statsEndpoint,route=>route.abort());
  const stalePage=await stale.newPage();await stalePage.goto(base+'/projects/');
  await stalePage.locator('[data-crate=tokora] [data-download-updated]').filter({hasText:'refresh unavailable'}).waitFor();
