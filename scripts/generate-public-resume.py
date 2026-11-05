@@ -69,7 +69,7 @@ skill_rows=[[para(skill['name'],'skill-label'),para(' / '.join(skill['items']),'
 skill_table=Table(skill_rows,colWidths=[116,content_width-116],hAlign='LEFT')
 skill_table.setStyle(TableStyle([('VALIGN',(0,0),(-1,-1),'TOP'),('LEFTPADDING',(0,0),(-1,-1),0),('RIGHTPADDING',(0,0),(-1,-1),6),('TOPPADDING',(0,0),(-1,-1),2),('BOTTOMPADDING',(0,0),(-1,-1),3)]))
 story.append(skill_table)
-story += [section('PROFESSIONAL EXPERIENCE'),role(data['experience'][0]),role(data['experience'][1]),PageBreak(),para('Al Liu / experience continued','page-title'),para('Rust systems engineering and open-source infrastructure.','body'),Spacer(1,7),role(data['experience'][2]),role(data['experience'][3]),section('OPEN-SOURCE ENGINEERING')]
+story += [section('PROFESSIONAL EXPERIENCE'),role(data['experience'][0]),role(data['experience'][1]),PageBreak(),role(data['experience'][2]),role(data['experience'][3]),section('OPEN-SOURCE ENGINEERING')]
 for paragraph in p['publicWork']: story.append(para(paragraph))
 story += [links([(p['site']+'/projects/','Explore the complete project collection')]),section('EDUCATION'),para(p['education']['school'],'role'),para(p['education']['degree'],'company'),para(p['education']['dates']+' / '+p['education']['graduation'],'small'),Spacer(1,7),para(p['education']['context'],'small'),Spacer(1,5),para(p['education']['award'],'small')]
 doc.build(story,onFirstPage=footer,onLaterPages=footer)
