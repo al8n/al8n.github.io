@@ -54,3 +54,14 @@ test('homepage gives the four priority projects independent spotlight cards', ()
   assert.deepEqual([...html.matchAll(/class="featured-card[^>]*data-project="([^"]+)"/g)].map(m=>m[1]),spotlight.map(p=>p.name));
   assert.ok(!html.includes('class="project-row"'));
 });
+
+test('public cards use primary-crate download statistics and private cards make no registry request', () => {
+  const collection=renderDocument('/projects/');
+  assert.equal((collection.match(/class="project-downloads"/g)||[]).length,30);
+  assert.ok(collection.includes('data-crate="caches"'));
+  assert.ok(!collection.includes('data-crate="pql"'));
+  assert.ok(!collection.includes('data-download-recent'));
+  assert.ok(!collection.includes('Last 90 days'));
+  assert.equal((renderDocument('/').match(/class="project-downloads"/g)||[]).length,4);
+  assert.ok(!renderDocument('/cv/').includes('/downloads.js'));
+});

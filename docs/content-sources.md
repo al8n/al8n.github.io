@@ -4,7 +4,7 @@ Reviewed on 2026-11-05. Role titles, dates, public responsibilities, contact inf
 
 ## Project verification
 
-Descriptions are conservative summaries of public repository READMEs, Cargo manifests, and, for hostaddr, its published Rust documentation. The 30 public repositories and their root manifests and READMEs were retrieved directly through the authenticated GitHub API for the expanded collection. The owner’s Discord screenshots supply the nine primary categories and project names; existing projects are retained, with a separate storage-engine category for skipdb. No star counts, performance benchmarks, or live download totals are shown. The résumé's undated aggregate-download snapshot was omitted rather than presented as a current metric.
+Descriptions are conservative summaries of public repository READMEs, Cargo manifests, and, for hostaddr, its published Rust documentation. The 30 public repositories and their root manifests and READMEs were retrieved directly through the authenticated GitHub API for the expanded collection. The owner’s Discord screenshots supply the nine primary categories and project names; existing projects are retained, with a separate storage-engine category for skipdb. No star counts or performance benchmarks are shown. Download totals are fetched separately from the public registry API. The résumé's undated aggregate-download snapshot was omitted rather than presented as a current metric.
 
 | Project | Primary source | Scope reflected in this site |
 | --- | --- | --- |
@@ -24,7 +24,6 @@ Descriptions are conservative summaries of public repository READMEs, Cargo mani
 | caches-rs | https://github.com/al8n/caches-rs | LRU/LFU-family implementations; published crate is `caches` |
 | tokora | https://github.com/al8n/tokora | On-demand lexing, explicit backtracking, diagnostics; no parser-generator claim |
 | smear | https://github.com/al8n/smear | Zero-copy GraphQL lexer, parser, validator; optional Sans-I/O execution core behind non-default `proto` feature |
-
 | buffo | https://github.com/al8n/buffo | Sans-I/O codec buffers, mutable/read-only chunks, no_std |
 | varing | https://github.com/al8n/varing | Protobuf varint and LEB128 encoding/decoding; const operations |
 | memmapix | https://github.com/al8n/memmapix | Cross-platform memory mapping using rustix |
@@ -42,7 +41,9 @@ Descriptions are conservative summaries of public repository READMEs, Cargo mani
 
 `pql` is included only by the name and lexer/parser category supplied in the owner’s screenshot. Its source is not public; no private README, implementation, description, or repository link is included.
 
-The `fs4-rs` repository URL was observed redirecting to `al8n/fs4`; the site uses the canonical URL. Cargo workspace/member identities were checked against the retrieved manifests and README installation blocks. The site omits a crates.io link for smear because its current package publication was not independently established. All 30 public repository URLs were verified through GitHub. The crates.io website returned HTTP 403 from this environment, so registry-page response checks remain unverified; repository and README evidence supports the listed crate identities. New source-only cards omit unverified package links.
+The `fs4-rs` repository URL redirects to `al8n/fs4`; the site uses the canonical URL. Package identities were checked against manifests, README installation blocks, and the live crates.io al8n account listing. On the download-metric update, all 30 public primary crate names, including smear, were confirmed in the API. Registry HTML previously returned HTTP 403 from this environment; the public JSON API succeeds and returns `Access-Control-Allow-Origin: *`.
+
+Download source: https://crates.io/api/v1/crates?user_id=119762&per_page=100&page=1 (currently two pages). The site uses each primary crate's `downloads` value across all versions, without summing workspace crates or treating counts as unique users. It validates totals, fetches pages serially, and caches results in the browser for ten minutes. Only fetch timestamps are claimed; crate release `updated_at` is not presented as a statistics-update timestamp. Crates.io's architecture explains that download counting is a background process based on CDN logs: https://github.com/rust-lang/crates.io/blob/main/docs/ARCHITECTURE.md#counting-downloads
 
 All 30 linked repositories were public and not archived at the verification time. This does not establish a future maintenance commitment, and the site makes no all-projects-actively-maintained claim. Public ownership does not imply exclusive authorship: derivation is credited for fs4 and stretto.
 

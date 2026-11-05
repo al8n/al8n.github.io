@@ -1,6 +1,6 @@
 # Al Liu — personal engineering website
 
-A static personal site for Rust systems engineering and open-source infrastructure. Includes an overview, 31-project collection across 10 categories, public CV, two-page public A4 résumé, and a custom 404 page. No backend, analytics, remote fonts, or runtime API requests.
+A static personal site for Rust systems engineering and open-source infrastructure. Includes an overview, 31-project collection across 10 categories, public CV, two-page public A4 résumé, and a custom 404 page. No backend, analytics, or remote fonts. Project cards fetch public download totals from crates.io, with a ten-minute browser cache.
 
 ![Homepage preview](docs/preview-home.jpg)
 
@@ -48,7 +48,8 @@ src/
 public/
   styles.css                  Shared responsive, theme, and print styles
   theme-init.js, site.js       System theme, persisted overrides, print action
-  projects.js                 Progressive category filtering
+  projects.js                 Animated progressive category filtering
+  downloads.js                Public crates.io totals and browser cache
   resume.pdf                  Sanitized public résumé
   favicon.svg                 Local identity asset
   social-preview.png          Local 1200 × 630 social preview
@@ -99,6 +100,16 @@ npm run test:browser
 The browser suite checks the three main pages at 1440, 1024, 768, and 390 CSS pixels in light and dark modes, plus theme persistence, system theme, filtering, back navigation, keyboard focus, PDF serving, print styling, 404 responses, and no-JavaScript content. It writes screenshots to ignored `tmp/qa/`. Tests are not considered passed until they actually run.
 
 `verify:links` makes network requests and distinguishes unverified links from successful responses. Cached search results and repository inspection do not prove every live URL responds today.
+
+## Project downloads and motion
+
+Homepage and project cards show the primary crate's total downloads across all versions. `caches-rs` maps to `caches`; other cards use the configured crate or project name. Workspace packages are not summed. Pql has no registry metric or request.
+
+`public/downloads.js` reads the public al8n account listing (`user_id=119762`, up to 100 crates per page), paces pagination to at most one request per second, and stores validated totals locally for ten minutes. It needs no credentials or backend. Switching categories makes no request. Counts are checked on page load when the cache expires, with the fetch time displayed; upstream batch processing and CDN caching mean these are not second-by-second counters. Failed refreshes preserve labeled cached counts; missing/failed data displays a dash and a registry link, never an invented zero. The static CV and PDF contain no changing download counts.
+
+Category changes animate with a short fade and vertical movement. Page navigation uses a small entry movement. Both respect reduced-motion settings, and rapid category changes cancel the previous animation without delaying the filter or keyboard focus.
+
+The browser suite uses deterministic registry responses for rendering, cache, outage, zero-count, and transition checks. Real API/CORS data is checked separately in the browser; synthetic test totals are not evidence of current registry counts.
 
 ## Confidentiality
 

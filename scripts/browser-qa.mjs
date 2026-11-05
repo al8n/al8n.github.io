@@ -6,10 +6,14 @@ const base=process.env.TEST_BASE_URL || 'http://127.0.0.1:4321';
 const out='tmp/qa'; await mkdir(out,{recursive:true});
 const browser=await chromium.launch();
 const problems=[];const results=[];
+const fixture={meta:{total:projects.filter(p=>p.github).length},crates:projects.filter(p=>p.github).map((p,index)=>({id:p.crate||p.name,downloads:p.name==='fs4'?78950878:1000+index,recent_downloads:100+index}))};
+const statsEndpoint=/^https:\/\/crates\.io\/api\/v1\/crates\?/;
+const mockStats = context=>context.route(statsEndpoint,route=>route.fulfill({json:fixture,headers:{'access-control-allow-origin':'*'}}));
 try {
  for(const width of [1440,1024,768,390]) {
   for(const theme of ['light','dark']) {
    const context=await browser.newContext({viewport:{width,height:1000},colorScheme:theme,reducedMotion:'reduce'});
+   await mockStats(context);
    await context.addInitScript(theme=>localStorage.setItem('al-theme',theme),theme);
    const page=await context.newPage();
    page.on('pageerror',e=>problems.push(String(e)));
@@ -18,6 +22,7 @@ try {
     const response=await page.goto(base+route);
     assert.equal(response.status(),200,route);
     await page.locator('h1').waitFor();
+    if(route!=='/cv/') await page.locator('[data-downloads-state=ready]').first().waitFor();
     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`Horizontal overflow at ${width} ${route}`);
     assert.equal(await page.locator('h1').count(),1);
     await page.screenshot({path:`${out}/${route==='/'?'home':route.split('/')[1]}-${width}-${theme}.png`,fullPage:true});
@@ -26,9 +31,12 @@ try {
    await context.close();
   }
  }
- const context=await browser.newContext({viewport:{width:390,height:844},colorScheme:'light'});
+ const context=await browser.newContext({viewport:{width:390,height:844},colorScheme:'light',reducedMotion:'no-preference'});
+ let statsRequests=0;
+ await context.route(statsEndpoint,route=>{statsRequests++;return route.fulfill({json:fixture});});
  const page=await context.newPage();
  await page.goto(base+'/');
+ await page.locator('[data-downloads-state=ready]').first().waitFor();
  const toggle=page.locator('#theme-toggle');
  await toggle.click(); assert.equal(await page.locator('html').getAttribute('data-theme'),'light');
  await toggle.click(); assert.equal(await page.locator('html').getAttribute('data-theme'),'dark');
@@ -38,6 +46,16 @@ try {
  assert.equal(await page.locator('html').evaluate(e=>getComputedStyle(e).colorScheme),'dark');
  await page.getByRole('link',{name:'Projects',exact:true}).click();
  assert.ok(page.url().endsWith('/projects/'));
+ await page.locator('[data-downloads-state=ready]').first().waitFor();
+ assert.equal(await page.locator('[data-crate=fs4] [data-download-total]').innerText(),'78,950,878');
+ assert.equal(await page.locator('[data-project=pql] [data-crate]').count(),0);
+ assert.equal(statsRequests,1,'Fresh statistics should be reused across navigation');
+ await page.getByRole('button',{name:'Networking',exact:true}).click();
+ assert.ok(await page.locator('.project-collection').evaluate(e=>e.getAnimations().length>0),'Category transition should animate');
+ await page.emulateMedia({reducedMotion:'reduce'});
+ await page.getByRole('button',{name:'Async',exact:true}).click();
+ assert.equal(await page.locator('.project-collection').evaluate(e=>e.getAnimations().length),0);
+ await page.emulateMedia({reducedMotion:'no-preference'});
  for(const [name,expected] of [...categories.map(c=>[c.short,projects.filter(p=>p.category===c.id).length]),['All projects',projects.length]]) {
   await page.getByRole('button',{name:new RegExp('^'+name)}).click();
   assert.equal(await page.locator('.collection-card:visible').count(),expected);
@@ -70,7 +88,21 @@ try {
  assert.equal(await noJSPage.locator('.category-nav').isVisible(),true);
  assert.equal(await noJSPage.locator('.project-filters').isVisible(),false);
  await noJS.close();
+ const offline=await browser.newContext();
+ await offline.route(statsEndpoint,route=>route.abort());
+ const offlinePage=await offline.newPage();await offlinePage.goto(base+'/');
+ await offlinePage.locator('[data-downloads-state=unavailable]').first().waitFor();
+ assert.equal(await offlinePage.locator('[data-download-total]').first().innerText(),'—');
+ await offline.close();
+ const stale=await browser.newContext();
+ await stale.addInitScript(()=>localStorage.setItem('al-crate-downloads-v1',JSON.stringify({checkedAt:Date.now()-3600000,stats:{tokora:{total:321,recent:12},smear:{total:0,recent:0},memberlist:{total:100,recent:50},serf:{total:200,recent:80}}})));
+ await stale.route(statsEndpoint,route=>route.abort());
+ const stalePage=await stale.newPage();await stalePage.goto(base+'/');
+ await stalePage.locator('[data-crate=tokora] [data-download-updated]').filter({hasText:'refresh unavailable'}).waitFor();
+ assert.equal(await stalePage.locator('[data-crate=tokora] [data-download-total]').innerText(),'321');
+ assert.equal(await stalePage.locator('[data-crate=smear] [data-download-total]').innerText(),'0');
+ await stale.close();
  assert.deepEqual(problems,[],'Browser console or script errors');
- await writeFile(`${out}/browser-results.json`,JSON.stringify({results,theme:'pass',filters:'pass',navigation:'pass',pdf:'pass',print:'pass',keyboard:'pass',noJavaScript:'pass'},null,2));
- console.log('PASS: 24 page/viewport/theme combinations, theme persistence, filters, direct routes, PDF, print, keyboard, and no-JS fallback.');
+ await writeFile(`${out}/browser-results.json`,JSON.stringify({results,theme:'pass',filters:'pass',navigation:'pass',pdf:'pass',print:'pass',keyboard:'pass',noJavaScript:'pass',downloads:'pass',transitions:'pass'},null,2));
+ console.log('PASS: 24 page/viewport/theme combinations, theme persistence, filters, direct routes, PDF, print, keyboard, no-JS fallback, total-download cache/failure states, and motion preferences.');
 }finally{await browser.close();}
