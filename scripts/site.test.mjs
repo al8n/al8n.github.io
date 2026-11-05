@@ -67,7 +67,7 @@ test('CV keeps detailed, public-safe role context and education', () => {
   }
   assert.ok(html.includes(escape(profile.education.award)));
   assert.ok(html.includes('expertise-grid'));
-  for(const term of ['concurrency model','thread-per-core','busy-loop','p99.9 tail latency']) assert.ok(html.includes(term));
+  for(const term of ['concurrency model','thread-per-core','busy-loop','shared-nothing','pre-allocated','mutex-free','p99.9 tail latency','several hundred milliseconds to 1-2 ms','tens of milliseconds to below 1 ms','100+ microseconds to 10-20 microseconds']) assert.ok(html.includes(term));
   assert.equal((html.match(/class="experience-heading"/g)||[]).length,4);
 });
 
