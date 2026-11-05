@@ -1,0 +1,5 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { homeContent } from '../components/render.ts';
+---
+<BaseLayout route="/"><Fragment set:html={homeContent()} /></BaseLayout>

@@ -1,0 +1,244 @@
+%PDF-1.4
+%“Œ‹ž ReportLab Generated PDF document (opensource)
+1 0 obj
+<<
+/F1 2 0 R /F2 3 0 R /F3 9 0 R
+>>
+endobj
+2 0 obj
+<<
+/BaseFont /Helvetica /Encoding /WinAnsiEncoding /Name /F1 /Subtype /Type1 /Type /Font
+>>
+endobj
+3 0 obj
+<<
+/BaseFont /Times-Roman /Encoding /WinAnsiEncoding /Name /F2 /Subtype /Type1 /Type /Font
+>>
+endobj
+4 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (mailto:scygliu1@gmail.com)
+>> /Border [ 0 0 0 ] /Rect [ 52 713.6898 130.0555 723.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+5 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://al8n.github.io)
+>> /Border [ 0 0 0 ] /Rect [ 146.5965 713.6898 197.1545 723.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+6 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://github.com/al8n)
+>> /Border [ 0 0 0 ] /Rect [ 52 700.1898 112.0015 710.3898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+7 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://linkedin.com/in/al8n)
+>> /Border [ 0 0 0 ] /Rect [ 128.5425 700.1898 203.181 710.3898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+8 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://crates.io/users/al8n)
+>> /Border [ 0 0 0 ] /Rect [ 219.722 700.1898 293.417 710.3898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+9 0 obj
+<<
+/BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding /Name /F3 /Subtype /Type1 /Type /Font
+>>
+endobj
+10 0 obj
+<<
+/Annots [ 4 0 R 5 0 R 6 0 R 7 0 R 8 0 R ] /Contents 28 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 27 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 
+  /Trans <<
+
+>> /Type /Page
+>>
+endobj
+11 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://github.com/al8n/memberlist)
+>> /Border [ 0 0 0 ] /Rect [ 52 655.2898 155.921 665.4898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+12 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://crates.io/crates/memberlist)
+>> /Border [ 0 0 0 ] /Rect [ 172.462 655.2898 248.503 665.4898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+13 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://github.com/al8n/skipdb)
+>> /Border [ 0 0 0 ] /Rect [ 52 583.9898 138.9295 594.1898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+14 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://crates.io/crates/skipdb)
+>> /Border [ 0 0 0 ] /Rect [ 155.4705 583.9898 214.52 594.1898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+15 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://github.com/al8n/serf)
+>> /Border [ 0 0 0 ] /Rect [ 52 512.6898 128.534 522.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+16 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://crates.io/crates/serf)
+>> /Border [ 0 0 0 ] /Rect [ 145.075 512.6898 193.729 522.8898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+17 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://github.com/al8n/fs4)
+>> /Border [ 0 0 0 ] /Rect [ 52 426.5898 125.7035 436.7898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+18 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://crates.io/crates/fs4)
+>> /Border [ 0 0 0 ] /Rect [ 142.2445 426.5898 188.068 436.7898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+19 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://github.com/al8n/tokora)
+>> /Border [ 0 0 0 ] /Rect [ 52 355.2898 137.986 365.4898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+20 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://crates.io/crates/tokora)
+>> /Border [ 0 0 0 ] /Rect [ 154.527 355.2898 212.633 365.4898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+21 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://github.com/al8n/fmmap)
+>> /Border [ 0 0 0 ] /Rect [ 52 283.9898 140.3405 294.1898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+22 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://crates.io/crates/fmmap)
+>> /Border [ 0 0 0 ] /Rect [ 156.8815 283.9898 217.342 294.1898 ] /Subtype /Link /Type /Annot
+>>
+endobj
+23 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://al8n.github.io/projects/)
+>> /Border [ 0 0 0 ] /Rect [ 52 261.1273 173.8815 274.6273 ] /Subtype /Link /Type /Annot
+>>
+endobj
+24 0 obj
+<<
+/Annots [ 11 0 R 12 0 R 13 0 R 14 0 R 15 0 R 16 0 R 17 0 R 18 0 R 19 0 R 20 0 R 
+  21 0 R 22 0 R 23 0 R ] /Contents 29 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 27 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 
+  /Trans <<
+
+>> /Type /Page
+>>
+endobj
+25 0 obj
+<<
+/PageMode /UseNone /Pages 27 0 R /Type /Catalog
+>>
+endobj
+26 0 obj
+<<
+/Author (Al Liu) /CreationDate (D:20000101000000+00'00') /Creator (Public resume generator) /Keywords () /ModDate (D:20000101000000+00'00') /Producer (ReportLab PDF Library - \(opensource\)) 
+  /Subject (Rust systems engineering and open-source infrastructure) /Title (Al Liu - Public Resume) /Trapped /False
+>>
+endobj
+27 0 obj
+<<
+/Count 2 /Kids [ 10 0 R 24 0 R ] /Type /Pages
+>>
+endobj
+28 0 obj
+<<
+/Filter [ /ASCII85Decode /FlateDecode ] /Length 1946
+>>
+stream
+Gb!<O?ZVu#&A[2p.JBb$G%-%+f_DT#1qC_&/shJZe%WsIgM0!JP/s3kl+7SH-9:++HC9[QRFm&NrQ">E(C5]h8,R"#!rOs/ZV(@Q_JB5u%Utf2_o;!'munlR82Q>L8<Ym,0n+o<1lgM^rJ?2P"AoLP,k3.Qj2@Q)0Kj-hV,#_i(q%54LuLl0U@BWQ'5127dVUA65q%jB0IpT$Y(1:b_\q7[`e%>4b=_qB/qr@k$b?0QAq.Y`(FQa<+Glh#*0)se#YLb\Xe4"=c!C`jFHEA`'VjTV79=2d5X<>KW?e'goU1OZ`(omV-&$$n4H)Yj?u,6F<R6q![%luE88g'LOn(G_35N;j^q^1dg'6Z5%1<"9T.2IK;cW.B_ac&L`IG&b)F_Lcg1OA!,`cQ6mL\c[9b%;'CEH8;']A=5fm6eWRf'`JR4*Y\Q!X1b!:L"TF2Ef6#"rB+ofNe#T5gXJBRds,A6c/JNB2,-m'*Q&nt,#2qE71=D9FcBgn=%I[GfhU\+R:o7N4;#=eYrQ-K#0Di9H*rA`nMI69HDcd=o<s^/^Ui?-.M'GoB[6SgLumN+_3c5^dh5hL2uJ]"Zh[AMQih[<+[AUV?M#+[K"b>Pt:'jj(^J-?E!9b>"2^jX/0e<'1hq&H<jn5Y.i`?79)7RIR!0dKh?E3%ca=1KN+qXYi=koOu%a>%T:eUoFkpDSITJO+L+M(V!\nCWgdt['D/[KfK<HQ"E\G>)!i`AXS]aXYlHu3e3-lBS!s/r#qLbY=4Rt^bsKO&8YZl-T+D8KT[:(SZnVKn3U.#)pN0Y\,)a[FTDh(f*iC^@.3J#9tIgs(%U<m3kbB3o+'aYkO$7Ee]#dYIt#<\8$`n67@/S!?Yu$RmY+j[^AVk"TeAd?1UaP-q:=Vl-cKK9V,/(R!jpSU#W3q^b%m?]A]lCRM;&7^JVJ7L6b(YdZdO;to^e)i8(7LbVHi;4/?QE2/T8P;OpdDIC+L.1'G:el*R/i;P,_@%24U_Q@WK.@S]L$Ve_V+-bIT*V<g;D4HX82FpT"f$E#MNlIGJ_'&l6uXcZ0j2]aY2V/sEI98aBX9SZp+QcRajfmnH7Jl@&k;&#OLb3c7:tYVoI=c(/XDYpo]]\5BdeIW6;"Fk't-dN8a$5SWnnGlq1W3O9,D;'ALi%.<\t=k>.``o(bGNmK1<jtsY!dA;UGIA?$QU(DKr$3cG;fR]K1+D%!:aVP>I$/_0]%7@Fl%<oWN`aLrT9:5T#q182;aOZC.1",qd?22<)n/[]a-ViQWmn:ncQGYmQ`aK[9hs'bbe+R`?a!'-(1Un-qj(%3][`&\7XMX3P6c*Lq:Z@'[J"B"F$,1*@a=pP;mV;1[K!@<GB8;dW1a^7:*QM`M"N!X.h"`P'T=1-iOJhY9/8O(5Y*?2S@F@.7'QnKE`<J[Z9r0PAmeIc%Gc>ogRA2#kjrA-XS-(ZqBnnZAFij"KGA1S;ep2@O<t>d,]R0R%UiJku[iM`Cfifuo(P_UeGrma6)c\BZ"#,.u*ZUXuWr0s1_3g8"aX^->;p0"5mk*h"POVk:cu_VN7VFhXO-r?%#`U-B6s1=t2Mc/1+Q<W:]AdeTZrHb@,`$\c__mI;XB6r(m&E1Ti95t:1NT/\X_7%Ce<PZgMiN^S01!*[CFi!Xo0R$_fa8U=E%L#0R'U;WUFIi:=LK8OmO;@)3<-V:&40ttmG>iJ.DFdCLpALTM9tr6F`9=7h:'XoM^aLD?p]$RkIl1of,Tgd;dR#PkR[gE0RUi*q,S5$s!^-#mR&-he(:(S[hR+m<O0giKO^1n^7gsRdUS$X(<8Vfr1eFq6XYJo9r=1ihhpQD\AX66)%N8^lHi]Z$2o@HkIkKXlLXZt9\kI3^^S?NY9K"i97O1EV13Mu0,a^ZPT4m&(pT;fhnH7*F5s;$*AtPm],*5DAt$c9^MC"(Qjo?7oo$%IBQniTPCEV#_"HL~>endstream
+endobj
+29 0 obj
+<<
+/Filter [ /ASCII85Decode /FlateDecode ] /Length 1872
+>>
+stream
+Gau0D?$"^Z'Re<2\5+,gV\iXHZ$E-%D4*uEUlauh^'S!\'jL6$G+8-Un!.^@97rFGaCN/SKQQWFkC2B@Mgq=H9F?;/9,PA6^a$'gK,6KJ/2,q/H1p]p'Dn@Cq;B2"*0UAph'`b\q#(+b5VNC,L'#5"ifGRqmrDO#[E$8K[#$SV%s*,M)o;'>E=dEB^/^TSm^7T76k[ABJAF't$XU^V51d@IIA\SrBOE%EJhb55p'3.`_X^KDEp%u"pRTBbmZ/N9!pOO77[ri?&r=QA'??:R]jQdf;b7gXj$aDV0:991!29j2F7SN8!>67XIGYl$pf'"'e?W*]3s,$MQeMW%\GP$Qi#`b%a(qjPd'Z`o=)8I"=O*(eV2`Z=^/@pMVI;%kUg-uYYA1E!3qG5m8h-:7f-"2g?)fKnI19/O:f=.[NRJ9,`:r1#Qe])df@.ANm(DVCNE*p)2AN;q0pO![4tPa8GCn^oUc39?7m6ZZrXkU"onJga-Yplr=trQNKjNn>^is+%:o%lmePrB\DC[%j/tci+/?$q5q</KV8ld^03@%M-f"H@"ATX3DSP92dMi&=pY#YnE>"XJ_dQ7TYbJH72SB8J+5:a]TkP7kd9X=2%?EV*f9aEh0b6nV^4@!I3aO$Z-jWq,Kd6&2>"7Ha#0Ur-32i47Ddgh_"gQ"Q/p.u9d8Cr`3#tAiYRBCjU\A[o4(NiXW`r%[4aPpZb^6%Ui55mF/5tWZ=U7*r3q8&:8-F1;=`LUREQ:O,aN[K?cW\J/5SGt;&!%hl`2mNLfAPS6GHDM1mXttM].<PK69EpQi5)f1H&!t-cqWCG#WHBj$hsDchk6g.\e=)^k6Zd)6Ca-VK<.H,NO]&#\d!`L(C14YIUqg7R'1jDN?'dJ19s-,6]](5TUA@V1d,p)^4Fk()rl^G=oB9':+)uQ[fu#mVMRpm$7Jp<o]c_pBM,%/!AdXqJQ5H(3=oiE!PiXZ7b@lnh/b)Q\2lf[3Kt?8(Y=rN9P%[s8"lR01$Hbeks!T6WGRJO$CJBOU6`iEj"VqP@)n3Md#`.r2(R)h`hoA^d(a%TUgqf.<l/I/X-n;dHCtj`_ru^&a:Hl;*k(tOGn7#rq?`KE).>B9%N#$GWCGitHbFBq"$b_d/\m[G';H_CXMbQIBn&I+dXEdhsRlXGB1EfK3kYDNaMm`g1[iV=E$(aB<')8A?$._O2b?c$`m0I;N[gUJL"\gp0`;<3Yj8^ksU"+c%qi-b*f%Q9\],tDb^m%HT[XI'-%Q)#JqM?RQg'I&YGr4k0o/A\d#*:P(;K3,r"'0QGfblb/`rO#[)la@"Fe.]m)?5TM3sJZU2dLea:)n8&)iS^b@,Ueca1$#D"g^=`ICPfnVDo"aI<GO73FA<N?LEh8QQKHE>96ARU:J??m`1P"K*s/J8BI7-2`@hE?SNPSEH)-M,sEl_0D[qZPMgPU(@=ruW\],gK^XMNqA-=fB34kQo@?$1hooa.oS'C_=E0bF5IGX`K\$L4bg<btH[?AY-E"33mB?-S6`/MPd^\#<N5j[IIH(Y"[#H<GoV$8d`$@$gG8,BiW+=1m-qmaH3>b_nUSaSY?9sE^#eQT'gCF^uF,n50e4Q-nB8.ItE)`B-3%c-p(-!+tiR$qdaTbnf=9%&gZk7]`.8(k;]lo/#l0Oq;.5tC[k($D/7`\hHr8B%iWD0e?;(jki^J#Gb6_pI<k)k`KP7o:*o=$Zbl#QdfZM-u#)l6?4S`ZO+9$_?)>*DBn"@m0@?JV#MFBU'H*:$THJ;KP#2#^2Lj*a?*RYkkKItOJ(R)dJ=MhKiQa]?b!VH,0F/5^pdM8?*5)g["EMLRteUiP?bX.tN;&E8!L(h0p#UsVP5;j.>:0q?Ll,'N&J%@mA%*J7QP~>endstream
+endobj
+xref
+0 30
+0000000000 65535 f 
+0000000061 00000 n 
+0000000112 00000 n 
+0000000219 00000 n 
+0000000328 00000 n 
+0000000499 00000 n 
+0000000673 00000 n 
+0000000842 00000 n 
+0000001021 00000 n 
+0000001199 00000 n 
+0000001311 00000 n 
+0000001559 00000 n 
+0000001739 00000 n 
+0000001925 00000 n 
+0000002102 00000 n 
+0000002284 00000 n 
+0000002458 00000 n 
+0000002638 00000 n 
+0000002812 00000 n 
+0000002992 00000 n 
+0000003168 00000 n 
+0000003350 00000 n 
+0000003526 00000 n 
+0000003708 00000 n 
+0000003887 00000 n 
+0000004199 00000 n 
+0000004269 00000 n 
+0000004600 00000 n 
+0000004668 00000 n 
+0000006706 00000 n 
+trailer
+<<
+/ID 
+[<edf99ec0ce56399ef623054128bae629><edf99ec0ce56399ef623054128bae629>]
+% ReportLab generated PDF document -- digest (opensource)
+
+/Info 26 0 R
+/Root 25 0 R
+/Size 30
+>>
+startxref
+8670
+%%EOF

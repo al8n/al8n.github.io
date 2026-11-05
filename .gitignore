@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.astro/
+tmp/
+.env
+.env.*
+*.private.*
+*private-resume*
+.DS_Store
+.venv/

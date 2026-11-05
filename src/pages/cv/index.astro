@@ -1,0 +1,5 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { cvContent } from '../../components/render.ts';
+---
+<BaseLayout route="/cv/"><Fragment set:html={cvContent()} /></BaseLayout>

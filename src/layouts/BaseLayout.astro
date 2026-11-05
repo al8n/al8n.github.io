@@ -1,0 +1,14 @@
+---
+import { renderHead, renderHeader, renderFooter, type Route } from '../components/render.ts';
+interface Props { route: Route }
+const { route } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head><Fragment set:html={renderHead(route)} /></head>
+  <body class:list={[{ 'cv-page': route === '/cv/' }]}>
+    <Fragment set:html={renderHeader(route)} />
+    <main class="container" id="main" tabindex="-1"><slot /></main>
+    <Fragment set:html={renderFooter()} />
+  </body>
+</html>
