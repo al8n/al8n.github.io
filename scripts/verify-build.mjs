@@ -27,7 +27,10 @@ for (const page of pages) {
   for (const block of html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)) JSON.parse(block[1]);
 }
 const all = await readFile('dist/projects/index.html','utf8');
-for (const project of projects) assert.ok(all.includes(`href="${project.github}"`), `Missing project ${project.name}`);
+for (const project of projects) {
+  assert.ok(all.includes(`data-project="${project.name}"`), `Missing project card ${project.name}`);
+  if (project.github) assert.ok(all.includes(`href="${project.github}"`), `Missing source ${project.name}`);
+}
 const expectedHash=createHash('sha256').update(JSON.stringify({profile,skills,experience,projects:featured},null,2)).digest('hex');
 assert.equal((await readFile('dist/resume-data.sha256','utf8')).trim(),expectedHash,'Resume data changed: run npm run resume before building.');
 const pdf = await readFile('dist/resume.pdf');

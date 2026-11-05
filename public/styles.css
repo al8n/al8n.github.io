@@ -377,13 +377,27 @@ svg {
 }
 .featured-grid {
   display:grid;
-  grid-template-columns:1fr 1fr;
+  grid-template-columns:repeat(2,minmax(0,1fr));
   gap:22px;
 }
 .featured-card {
   border-radius:4px;
   padding:25px 28px 27px;
   overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+.card-copy {
+  display:flex;
+  flex-direction:column;
+  flex:1;
+}
+.card-copy .tags {
+  margin-top:auto;
+  padding-top:22px;
+}
+.card-copy .card-detail {
+  margin-bottom:0;
 }
 .card-forest {
   background:var(--forest);
@@ -474,6 +488,7 @@ svg {
 }
 .project-links {
   display:flex;
+  flex-wrap:wrap;
   gap:20px;
   margin-top:21px;
   font-size:11px;
@@ -755,6 +770,18 @@ svg {
 }
 .collection-card:hover {
   background:var(--surface);
+}
+.collection-spotlight {
+  background:var(--surface);
+  border-top:3px solid var(--accent);
+}
+.spotlight-label {
+  color:var(--accent);
+  font-size:9px;
+  letter-spacing:.08em;
+}
+.source-unavailable {
+  color:var(--muted);
 }
 .collection-title {
   display:flex;

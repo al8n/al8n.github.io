@@ -1,6 +1,6 @@
 # Al Liu — personal engineering website
 
-A static personal site for Rust systems engineering and open-source infrastructure. Includes an overview, 16-project collection, public CV, two-page public A4 résumé, and a custom 404 page. No backend, analytics, remote fonts, or runtime API requests.
+A static personal site for Rust systems engineering and open-source infrastructure. Includes an overview, 31-project collection across 10 categories, public CV, two-page public A4 résumé, and a custom 404 page. No backend, analytics, remote fonts, or runtime API requests.
 
 ![Homepage preview](docs/preview-home.jpg)
 
@@ -64,7 +64,7 @@ Public content is escaped before interpolation into static HTML. The small share
 
 - Update profile, contact links, skills, and education in `src/data/profile.ts`.
 - Update roles, actual overlapping dates, and public responsibilities in `src/data/experience.ts`.
-- Add projects to `src/data/projects.ts`; verify the repository README and crate identity first. Categories and totals are derived from the data. The featured order is set at the end of that file.
+- Add projects to `src/data/projects.ts`; verify the repository README and crate identity first. Categories and totals are derived from the data. The homepage spotlight order and the CV selection are set at the end of that file. A project without a public repository URL renders a source-unavailable card, without an outbound link.
 - Shared structure and copy live in `src/components/render.ts`; presentation lives in `public/styles.css`.
 - Project descriptions and scope decisions are recorded in [docs/content-sources.md](docs/content-sources.md).
 - Rebuild and regenerate the public PDF after a content change. Never edit the PDF independently of its data. The build compares `resume-data.sha256` against the shared CV records and refuses a stale PDF.

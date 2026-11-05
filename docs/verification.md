@@ -1,22 +1,20 @@
-# Verification record — 2026-11-05
+# Verification record - 2026-11-05
+
+The expanded catalog has 31 project cards across ten categories: the nine categories in the owner's Discord screenshots plus storage engines. Thirty cards link to verified public repositories; pql exposes only its owner-provided name and category.
 
 | Check | Actual result |
 | --- | --- |
 | Astro and TypeScript diagnostics | Passed: 22 files, zero errors, warnings, or hints |
-| Standard Astro production build | Passed: four prerendered pages with correct root routes and trailing slashes |
-| Static content/asset validation | Passed: 16 projects, 47 internal references, single page headings, anchors, JSON-LD, PDF data consistency, and 1200 × 630 social asset |
-| Local regression checks | Passed: 3 tests covering project identities/categories, anonymous current role and overlapping dates, escaped HTML and safe structured data |
-| Public PDF | Passed: two A4 pages, 18 link annotations, selectable text; both rasterized pages visually inspected |
-| Source/build confidentiality | Passed for privately supplied employer-name variants across source and output, plus extracted PDF text and metadata |
-| Legacy remote history | Passed known-term matching: 4 earlier commits and 11 distinct text/PDF blobs inspected through GitHub; earlier commits preserved |
-| Manual browser review | Passed: 1440px desktop overview, 1024px laptop overview, 768px tablet CV, and 390px mobile projects/CV; no horizontal overflow at reviewed views |
-| Interactive manual checks | Passed: theme change persisted between pages; Storage filter displayed four projects; navigation and CV rendered correctly; browser reported no warnings/errors |
-| Complete browser matrix | Passed in [GitHub Actions](https://github.com/al8n/al8n.github.io/actions/runs/42031135798): 24 page/viewport/theme combinations plus persistence, filters, keyboard, PDF, print, 404, and no-JS checks |
-| Local headless browser suite | Executor prevented launching a separate browser process; manual checks used the supported in-app browser |
-| Public project sources | All 16 public, non-archived repositories and their root Cargo manifests/READMEs retrieved directly through GitHub |
-| Crates.io HTML links | Environment returned HTTP 403; registry-page checks remain a publication follow-up |
-| Deployment | Owner-approved automatic deployment configured from `main` through GitHub Actions; the completed deployment run and live route responses verify each release |
+| Production build | Passed: four prerendered pages, 31 cards, 47 internal references, anchors, JSON-LD, PDF data consistency, and social asset |
+| Local regression checks | Passed: five checks, including exact category membership, one card per project, private-source link omission, and four homepage spotlights |
+| Public PDF | Passed: two A4 pages, 17 links, selectable text; both rasterized pages visually inspected |
+| Source/build confidentiality | Passed: privately supplied terms scanned across source/output and PDF text/metadata; no restricted terms logged |
+| Manual responsive review | Passed at 1440, 1024, 768, and 390 CSS pixels; no horizontal overflow; mobile dark-mode cards inspected |
+| Manual filtering | All ten filters returned correct counts; All projects returned 31; pql has no outbound link; browser reported no warnings/errors |
+| Public project evidence | Thirty public, non-archived repositories and their README/root manifests retrieved directly through GitHub |
+| Registry HTML links | The environment returns HTTP 403; live registry response checks remain unverified |
+| Automated release checks | Every push runs the full 24-case viewport/theme/page matrix, category/history/no-JS checks, full-history privacy scan, and production build before deployment |
 
-The production build emits an upstream Vite unused-import warning inside Astro's own asset helper; the build completes successfully. There are no application diagnostics.
+Current release results and screenshots are available in [GitHub Actions](https://github.com/al8n/al8n.github.io/actions/workflows/deploy.yml). Its `browser-review` artifact retains screenshots and the JSON result for seven days. The local executor prevents a separate headless browser process, so the complete automated matrix runs on Ubuntu 24.04 in CI. Local visual checks use the supported browser.
 
-The `browser-review` artifact in GitHub Actions retains the full browser screenshots and JSON result report for seven days. The linked completed run verifies the application source; later documentation-only changes do not alter its behavior. The owner has approved public deployment. The repository variable `PUBLIC_CONTENT_APPROVED` is enabled and the Pages build source is `workflow`. The former legacy Pages task failed without deployment during the initial replacement; future releases use the verified Actions workflow.
+The production build emits an upstream Vite unused-import warning inside Astro's asset helper; there are no application diagnostics. Automatic publication from main is approved and enabled, with Pages configured to use GitHub Actions. The previous automatic deployment passed in [run 42036001586](https://github.com/al8n/al8n.github.io/actions/runs/42036001586); each new release is verified through its own completed run and live-route checks.

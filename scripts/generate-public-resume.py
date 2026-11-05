@@ -64,7 +64,7 @@ for project in data['projects']:
  block=[para(project['name'],'project'),para(project['detail'])]
  urls=[(project['github'],'github.com/al8n/'+project['name'])]
  if project.get('crate'): urls.append(('https://crates.io/crates/'+project['crate'],'crates.io/'+project['crate']))
- block += [links(urls),Spacer(1,10)]
+ block += [links(urls),Spacer(1,6)]
  story.append(KeepTogether(block))
 story += [links([(p['site']+'/projects/','Explore the full project collection')]),section('TECHNICAL EXPERTISE')]
 for skill in data['skills']:

@@ -1,3 +1,4 @@
+import { projects, categories, spotlight } from '../src/data/projects.ts';
 import { chromium } from 'playwright';
 import { mkdir, writeFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
@@ -37,13 +38,18 @@ try {
  assert.equal(await page.locator('html').evaluate(e=>getComputedStyle(e).colorScheme),'dark');
  await page.getByRole('link',{name:'Projects',exact:true}).click();
  assert.ok(page.url().endsWith('/projects/'));
- for(const [name,expected] of [['Networking',6],['Systems',4],['Storage',4],['Parsing',2],['All projects',16]]) {
+ for(const [name,expected] of [...categories.map(c=>[c.short,projects.filter(p=>p.category===c.id).length]),['All projects',projects.length]]) {
   await page.getByRole('button',{name:new RegExp('^'+name)}).click();
   assert.equal(await page.locator('.collection-card:visible').count(),expected);
  }
  await page.getByRole('button',{name:'Storage',exact:true}).click();
- await page.reload(); assert.equal(await page.locator('.collection-card:visible').count(),4);
- await page.goBack(); assert.equal(await page.locator('.collection-card:visible').count(),16);
+ await page.reload(); assert.equal(await page.locator('.collection-card:visible').count(),1);
+ await page.goBack(); assert.equal(await page.locator('.collection-card:visible').count(),projects.length);
+ assert.equal(await page.locator('[data-project="pql"] a').count(),0);
+ await page.goto(base+'/projects/#parsing');
+ assert.equal(await page.locator('.collection-card:visible').count(),5);
+ await page.goto(base+'/');
+ assert.deepEqual(await page.locator('.featured-card').evaluateAll(cards=>cards.map(card=>card.dataset.project)),spotlight.map(p=>p.name));
  await page.goto(base+'/cv/');
  const pdf=await context.request.get(base+'/resume.pdf'); assert.equal(pdf.status(),200);assert.ok((await pdf.body()).subarray(0,5).toString()==='%PDF-');
  await page.getByRole('link',{name:'Al Liu, home',exact:true}).evaluate(e=>e.focus());
@@ -60,7 +66,7 @@ try {
  await context.close();
  const noJS=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});
  const noJSPage=await noJS.newPage();await noJSPage.goto(base+'/projects/');
- assert.equal(await noJSPage.locator('.collection-card:visible').count(),16);
+ assert.equal(await noJSPage.locator('.collection-card:visible').count(),projects.length);
  assert.equal(await noJSPage.locator('.category-nav').isVisible(),true);
  assert.equal(await noJSPage.locator('.project-filters').isVisible(),false);
  await noJS.close();

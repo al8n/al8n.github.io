@@ -1,28 +1,14 @@
 # Release review
 
-## Implementation and source review
+- [x] All 31 projects have independent cards in ten categories, preserving the owner's Discord taxonomy and existing collection.
+- [x] Tokora, smear, memberlist, and serf have homepage spotlight cards and collection markers.
+- [x] Thirty public README/manifests reviewed; source-only cards omit unverified registry links.
+- [x] Pql uses only its owner-provided name/category, with no private source, description, or repository link.
+- [x] Shared public data updates the online CV and two-page A4 PDF; both rendered pages inspected.
+- [x] Current role remains anonymous; private records and restricted-term lists remain outside source and Git history.
+- [x] Source, build output, PDF text, and metadata passed the private-term scan; public screenshot inspected.
+- [x] Astro/TypeScript, production build, static validation, and five regression checks passed locally.
+- [x] Responsive previews, light/dark cards, and all ten filters reviewed in the browser.
+- [x] Existing repository history is preserved; approved automatic deployment remains enabled.
 
-- [x] Public overview, projects, CV, and 404 implemented.
-- [x] Six featured libraries and all 16 requested projects included.
-- [x] Shared public records supply the online CV and reproducible two-page A4 résumé.
-- [x] Current employer represented anonymously, with general responsibilities only.
-- [x] No private résumé, internal document, private metrics, or confidential term list included in source.
-- [x] Source and static output checked using privately supplied restricted terms.
-- [x] PDF text, links, metadata, and rendered page layout inspected.
-- [x] Standard Astro production build, Astro/TypeScript check, internal validation, and local regression tests passed.
-- [x] Light/dark themes, filtering, navigation, and representative desktop/tablet/mobile views inspected in a real browser.
-- [x] All 16 public repository READMEs and root Cargo manifests retrieved and reviewed.
-- [x] Existing repository, default branch, and old history inspected; replacement preserves earlier commits.
-- [x] New deployment workflow skipped publication as intended; the legacy Pages task also skipped deployment. The owner has subsequently approved public deployment.
-
-## Before public publication
-
-- [x] Complete browser matrix passed in [GitHub Actions](https://github.com/al8n/al8n.github.io/actions/runs/42031135798); screenshots are retained in its `browser-review` artifact.
-- [ ] Recheck crates.io page access from an unrestricted browser; the development environment received HTTP 403.
-- [x] Owner approved public deployment and made the repository public.
-- [ ] Repeat the history/content privacy check with any additional private aliases or internal identifiers supplied by the owner.
-- [ ] Review raster assets and indirect disclosure risks. Automated matching cannot prove absence of all indirect disclosures.
-- [x] Pages source set to GitHub Actions and `PUBLIC_CONTENT_APPROVED` enabled after approval.
-- [ ] Run the deployment and verify the live overview, project collection, CV, PDF, and missing-route behavior.
-
-Local headless browser processes were unavailable under executor restrictions, so the complete automated matrix runs in GitHub Actions. The real-browser manual checks and the standard Astro build have passed. Publication is automated from `main`; the completed deployment run and live route checks are the release evidence.
+The [release workflow](https://github.com/al8n/al8n.github.io/actions/workflows/deploy.yml) runs the complete browser matrix and full-history privacy checks before publishing. Completed runs and live route responses provide release evidence. Registry HTML response checks remain unverified because the environment returns HTTP 403.

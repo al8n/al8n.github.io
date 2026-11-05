@@ -1,5 +1,5 @@
 import { projects } from '../src/data/projects.ts';
-const urls=[...new Set(projects.flatMap(p=>[p.github,...(p.crate?[`https://crates.io/crates/${p.crate}`]:[])]))];
+const urls=[...new Set(projects.flatMap(p=>[...(p.github?[p.github]:[]),...(p.crate?[`https://crates.io/crates/${p.crate}`]:[])]))];
 let failed=0;
 // Sequential requests avoid overwhelming public services. Network failures remain unverified.
 for(const url of urls) {
