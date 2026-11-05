@@ -2,6 +2,8 @@
 
 A static personal site for Rust systems engineering and open-source infrastructure. Includes an overview, 16-project collection, public CV, two-page public A4 résumé, and a custom 404 page. No backend, analytics, remote fonts, or runtime API requests.
 
+![Homepage preview](docs/preview-home.jpg)
+
 ## Start locally
 
 Requires Node.js 22.18+ (24 LTS recommended). From this directory:

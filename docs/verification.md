@@ -11,7 +11,7 @@
 | Legacy remote history | Passed known-term matching: 4 earlier commits and 11 distinct text/PDF blobs inspected through GitHub; earlier commits preserved |
 | Manual browser review | Passed: 1440px desktop overview, 1024px laptop overview, 768px tablet CV, and 390px mobile projects/CV; no horizontal overflow at reviewed views |
 | Interactive manual checks | Passed: theme change persisted between pages; Storage filter displayed four projects; navigation and CV rendered correctly; browser reported no warnings/errors |
-| Complete browser matrix | Prepared for GitHub Actions: 24 page/viewport/theme combinations plus persistence, filters, keyboard, PDF, print, 404, and no-JS checks. See the latest Actions run for the executed result |
+| Complete browser matrix | Passed in [GitHub Actions](https://github.com/al8n/al8n.github.io/actions/runs/42031135798): 24 page/viewport/theme combinations plus persistence, filters, keyboard, PDF, print, 404, and no-JS checks |
 | Local headless browser suite | Executor prevented launching a separate browser process; manual checks used the supported in-app browser |
 | Public project sources | All 16 public, non-archived repositories and their root Cargo manifests/READMEs retrieved directly through GitHub |
 | Crates.io HTML links | Environment returned HTTP 403; registry-page checks remain a publication follow-up |
@@ -19,4 +19,4 @@
 
 The production build emits an upstream Vite unused-import warning inside Astro's own asset helper; the build completes successfully. There are no application diagnostics.
 
-The `browser-review` artifact in GitHub Actions retains the full browser screenshots and JSON result report for seven days. A configured workflow is not itself evidence of success: inspect its latest completed run. The repository variable `PUBLIC_CONTENT_APPROVED` is not enabled, and GitHub Pages was not enabled during source replacement.
+The `browser-review` artifact in GitHub Actions retains the full browser screenshots and JSON result report for seven days. The linked completed run verifies the application source; later documentation-only changes do not alter its behavior. The repository variable `PUBLIC_CONTENT_APPROVED` is not enabled. The existing legacy Pages task failed and skipped deployment; its build-source setting has not been changed.

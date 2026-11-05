@@ -13,11 +13,11 @@
 - [x] Light/dark themes, filtering, navigation, and representative desktop/tablet/mobile views inspected in a real browser.
 - [x] All 16 public repository READMEs and root Cargo manifests retrieved and reviewed.
 - [x] Existing private repository, default branch, and old history inspected; replacement preserves earlier commits.
-- [x] GitHub Pages confirmed not enabled; deployment remains gated by explicit public-content approval.
+- [x] New deployment workflow skipped publication as intended; the legacy Pages task also skipped deployment. Public-content approval remains required.
 
 ## Before public publication
 
-- [ ] Inspect the latest completed GitHub Actions browser matrix and its `browser-review` screenshots.
+- [x] Complete browser matrix passed in [GitHub Actions](https://github.com/al8n/al8n.github.io/actions/runs/42031135798); screenshots are retained in its `browser-review` artifact.
 - [ ] Recheck crates.io page access from an unrestricted browser; the development environment received HTTP 403.
 - [ ] Obtain explicit owner approval of public pages, CV, résumé, and social preview.
 - [ ] Repeat the history/content privacy check with any additional private aliases or internal identifiers supplied by the owner.
