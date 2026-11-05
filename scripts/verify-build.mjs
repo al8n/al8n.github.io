@@ -4,7 +4,6 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { profile, skills } from '../src/data/profile.ts';
 import { experience } from '../src/data/experience.ts';
-import { featured } from '../src/data/projects.ts';
 import { projects } from '../src/data/projects.ts';
 const pages = ['index.html', 'projects/index.html', 'cv/index.html', '404.html'];
 let checked = 0;
@@ -31,7 +30,7 @@ for (const project of projects) {
   assert.ok(all.includes(`data-project="${project.name}"`), `Missing project card ${project.name}`);
   if (project.github) assert.ok(all.includes(`href="${project.github}"`), `Missing source ${project.name}`);
 }
-const expectedHash=createHash('sha256').update(JSON.stringify({profile,skills,experience,projects:featured},null,2)).digest('hex');
+const expectedHash=createHash('sha256').update(JSON.stringify({profile,skills,experience},null,2)).digest('hex');
 assert.equal((await readFile('dist/resume-data.sha256','utf8')).trim(),expectedHash,'Resume data changed: run npm run resume before building.');
 const pdf = await readFile('dist/resume.pdf');
 assert.ok(pdf.subarray(0,5).toString() === '%PDF-');

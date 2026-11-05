@@ -1,14 +1,17 @@
 ---
 import { renderHead, renderHeader, renderFooter, type Route } from '../components/render.ts';
+import { ClientRouter } from 'astro:transitions';
+import { fade } from 'astro:transitions';
 interface Props { route: Route }
 const { route } = Astro.props;
 ---
 <!doctype html>
 <html lang="en">
-  <head><Fragment set:html={renderHead(route)} /></head>
+  <head><Fragment set:html={renderHead(route)} /><ClientRouter /></head>
   <body class:list={[{ 'cv-page': route === '/cv/' }]}>
     <Fragment set:html={renderHeader(route)} />
-    <main class="container" id="main" tabindex="-1"><slot /></main>
+    <main class="container" id="main" tabindex="-1" transition:name="page-content" transition:animate={fade({ duration: '240ms' })}><slot /></main>
     <Fragment set:html={renderFooter()} />
+    <script>import '../scripts/navigation';</script>
   </body>
 </html>

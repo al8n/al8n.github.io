@@ -1,6 +1,6 @@
 # Public content sources
 
-Reviewed on 2026-11-05. Role titles, dates, public responsibilities, contact information, and education follow the owner's supplied engineering-site brief. Polar Sync's full-time contract arrangement follows the owner's explicit clarification. No private recruitment PDF was copied into this workspace or used as a deployed asset.
+Reviewed on 2026-11-05. Role titles, dates, public responsibilities, contact information, and education follow the owner's supplied engineering-site brief. Polar Sync's full-time contract arrangement follows the owner's explicit clarification. No private recruitment PDF was copied into this workspace or used as a deployed asset. Expanded CV role context uses the owner’s confirmed public responsibilities; no internal architecture or performance figures were added. The scholarship’s formal title and full-time work during the 2022 study year follow the owner’s explicit clarifications.
 
 ## Project verification
 

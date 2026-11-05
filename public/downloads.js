@@ -41,6 +41,7 @@ export function readCachedStats(storage, now = Date.now()) {
   } catch { return null; }
 }
 
+let pendingStats;
 async function showDownloads() {
   const cards = [...document.querySelectorAll('[data-crate]')];
   if (!cards.length) return;
@@ -63,7 +64,8 @@ async function showDownloads() {
   if (cached?.fresh) return;
   if (!cached) for (const card of cards) card.querySelector('[data-download-updated]').textContent = 'Checking crates.io…';
   try {
-    const snapshot = await fetchCrateStats();
+    pendingStats ||= fetchCrateStats().finally(() => { pendingStats = null; });
+    const snapshot = await pendingStats;
     render(snapshot);
     try { storage?.setItem(cacheKey, JSON.stringify(snapshot)); } catch { /* Storage is optional. */ }
   } catch {
@@ -79,4 +81,7 @@ async function showDownloads() {
   }
 }
 
-if (typeof document !== 'undefined') void showDownloads();
+if (typeof document !== 'undefined') {
+  document.addEventListener('astro:page-load', showDownloads);
+  void showDownloads();
+}

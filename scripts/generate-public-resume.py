@@ -51,25 +51,20 @@ def footer(canvas, doc):
 
 out=ROOT/'public/resume.pdf'
 doc=SimpleDocTemplate(str(out),pagesize=A4,rightMargin=46,leftMargin=46,topMargin=39,bottomMargin=51,title='Al Liu - Public Resume',author='Al Liu',invariant=True)
-story=[para(p['name'],'name'),para(p['title'],'subtitle'),links([(f"mailto:{p['email']}",p['email']),(p['site'], 'al8n.github.io')]),links([(p['github'],'github.com/al8n'),(p['linkedin'],'linkedin.com/in/al8n'),(p['crates'],'crates.io/users/al8n')]),Spacer(1,13),HRFlowable(width='100%',thickness=.6,color=line),section('PROFILE'),para(p['summary']),section('PROFESSIONAL EXPERIENCE')]
-for e in data['experience']:
- head=Table([[para(e['role'],'role'),para(e['start']+' - '+e['end'],'small')]],colWidths=[355,148])
+def role(entry):
+ head=Table([[para(entry['role'],'role'),para(entry['start']+' - '+entry['end'],'small')]],colWidths=[355,148])
  head.setStyle(TableStyle([('VALIGN',(0,0),(-1,-1),'TOP'),('LEFTPADDING',(0,0),(-1,-1),0),('RIGHTPADDING',(0,0),(-1,-1),0),('TOPPADDING',(0,0),(-1,-1),0),('BOTTOMPADDING',(0,0),(-1,-1),2)]))
- block=[head,para(e['company'],'company'),para(e['arrangement'],'small'),Spacer(1,6)]
- for bullet in e['bullets']: block.append(Paragraph(clean(bullet),styles['bullet'],bulletText='-'))
- block.append(Spacer(1,11))
- story.append(KeepTogether(block))
-story += [PageBreak(),para('Open-source engineering','page-title'),para('Selected Rust libraries for distributed systems, storage, networking, and parsing.','body'),Spacer(1,6)]
-for project in data['projects']:
- block=[para(project['name'],'project'),para(project['detail'])]
- urls=[(project['github'],'github.com/al8n/'+project['name'])]
- if project.get('crate'): urls.append(('https://crates.io/crates/'+project['crate'],'crates.io/'+project['crate']))
- block += [links(urls),Spacer(1,6)]
- story.append(KeepTogether(block))
-story += [links([(p['site']+'/projects/','Explore the full project collection')]),section('TECHNICAL EXPERTISE')]
+ block=[head,para(entry['company'],'company'),para(entry['arrangement'],'small'),Spacer(1,7),para(entry['overview'])]
+ for bullet in entry['bullets']: block.append(Paragraph(clean(bullet),styles['bullet'],bulletText='-'))
+ block.append(Spacer(1,12))
+ return KeepTogether(block)
+
+story=[para(p['name'],'name'),para(p['title'],'subtitle'),links([(f"mailto:{p['email']}",p['email']),(p['site'], 'al8n.github.io')]),links([(p['github'],'github.com/al8n'),(p['linkedin'],'linkedin.com/in/al8n'),(p['crates'],'crates.io/users/al8n')]),Spacer(1,11),HRFlowable(width='100%',thickness=.6,color=line),section('PROFILE'),para(p['summary']),section('TECHNICAL EXPERTISE')]
 for skill in data['skills']:
  story.append(Paragraph(f'<b>{clean(skill["name"])}</b> &nbsp; {clean(" / ".join(skill["items"]))}',styles['small']))
-story += [section('EDUCATION'),para(p['education']['school'],'role'),para(p['education']['degree'],'company'),para(p['education']['dates']+' / '+p['education']['graduation'],'small')]
+story += [section('PROFESSIONAL EXPERIENCE'),role(data['experience'][0]),role(data['experience'][1]),PageBreak(),para('Engineering experience','page-title'),para('Continued professional experience and open-source engineering.','body'),Spacer(1,7),role(data['experience'][2]),role(data['experience'][3]),section('OPEN-SOURCE ENGINEERING')]
+for paragraph in p['publicWork']: story.append(para(paragraph))
+story += [links([(p['site']+'/projects/','Explore the complete project collection')]),section('EDUCATION'),para(p['education']['school'],'role'),para(p['education']['degree'],'company'),para(p['education']['dates']+' / '+p['education']['graduation'],'small'),Spacer(1,7),para(p['education']['context'],'small'),Spacer(1,5),para(p['education']['award'],'small')]
 doc.build(story,onFirstPage=footer,onLaterPages=footer)
 reader=PdfReader(out)
 assert len(reader.pages)==2, f'Expected 2 pages, got {len(reader.pages)}'

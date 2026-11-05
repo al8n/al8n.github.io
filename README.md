@@ -1,6 +1,6 @@
 # Al Liu — personal engineering website
 
-A static personal site for Rust systems engineering and open-source infrastructure. Includes an overview, 31-project collection across 10 categories, public CV, two-page public A4 résumé, and a custom 404 page. No backend, analytics, or remote fonts. Project cards fetch public download totals from crates.io, with a ten-minute browser cache.
+A static personal site for Rust systems engineering and open-source infrastructure. Includes a personal overview, a dedicated 31-project collection across 10 categories, a detailed public CV, a two-page public A4 résumé, and a custom 404 page. No backend, analytics, or remote fonts. Cards on the Projects page fetch public download totals from crates.io, with a ten-minute browser cache.
 
 ![Homepage preview](docs/preview-home.jpg)
 
@@ -41,8 +41,9 @@ This works with Node 22.18+ without `npm install`. It produces the same page bod
 src/
   data/profile.ts             Identity, public summary, expertise, education
   data/experience.ts          Public professional history
-  data/projects.ts            Typed projects, categories, featured selection
+  data/projects.ts            Typed projects, categories, selected projects
   components/render.ts        Shared escaped static page components
+  scripts/navigation.ts       Category history through Astro’s client router
   layouts/BaseLayout.astro    Astro document layout
   pages/                      Overview, projects, CV, 404
 public/
@@ -65,7 +66,7 @@ Public content is escaped before interpolation into static HTML. The small share
 
 - Update profile, contact links, skills, and education in `src/data/profile.ts`.
 - Update roles, actual overlapping dates, and public responsibilities in `src/data/experience.ts`.
-- Add projects to `src/data/projects.ts`; verify the repository README and crate identity first. Categories and totals are derived from the data. The homepage spotlight order and the CV selection are set at the end of that file. A project without a public repository URL renders a source-unavailable card, without an outbound link.
+- Add projects to `src/data/projects.ts`; verify the repository README and crate identity first. Categories and totals are derived from the data. Selected-project flags keep tokora, smear, memberlist, and serf visually prominent within Projects. Overview and CV do not duplicate the catalog. A project without a public repository URL renders a source-unavailable card, without an outbound link.
 - Shared structure and copy live in `src/components/render.ts`; presentation lives in `public/styles.css`.
 - Project descriptions and scope decisions are recorded in [docs/content-sources.md](docs/content-sources.md).
 - Rebuild and regenerate the public PDF after a content change. Never edit the PDF independently of its data. The build compares `resume-data.sha256` against the shared CV records and refuses a stale PDF.
@@ -103,13 +104,13 @@ The browser suite checks the three main pages at 1440, 1024, 768, and 390 CSS pi
 
 ## Project downloads and motion
 
-Homepage and project cards show the primary crate's total downloads across all versions. `caches-rs` maps to `caches`; other cards use the configured crate or project name. Workspace packages are not summed. Pql has no registry metric or request.
+Cards on the Projects page show the primary crate's total downloads across all versions. `caches-rs` maps to `caches`; other cards use the configured crate or project name. Workspace packages are not summed. Pql has no registry metric or request.
 
-`public/downloads.js` reads the public al8n account listing (`user_id=119762`, up to 100 crates per page), paces pagination to at most one request per second, and stores validated totals locally for ten minutes. It needs no credentials or backend. Switching categories makes no request. Counts are checked on page load when the cache expires, with the fetch time displayed; upstream batch processing and CDN caching mean these are not second-by-second counters. Failed refreshes preserve labeled cached counts; missing/failed data displays a dash and a registry link, never an invented zero. The static CV and PDF contain no changing download counts.
+`public/downloads.js` reads the public al8n account listing (`user_id=119762`, up to 100 crates per page), paces pagination to at most one request per second, and stores validated totals locally for ten minutes. It needs no credentials or backend. Switching categories makes no request. Counts are checked on page load when the cache expires, with the fetch time displayed; upstream batch processing and CDN caching mean these are not second-by-second counters. Failed refreshes preserve labeled cached counts; missing/failed data displays a dash and a registry link, never an invented zero. Overview, CV, and PDF contain no changing download counts. Opening Overview makes no registry request.
 
-Category changes animate with a short fade and vertical movement. Page navigation uses a small entry movement. Both respect reduced-motion settings, and rapid category changes cancel the previous animation without delaying the filter or keyboard focus.
+Astro ClientRouter provides continuous page transitions with an animated fallback for browsers without native View Transitions. Category changes retain a short fade and vertical movement. Theme colors, navigation, links, cards, and buttons also transition. All motion respects reduced-motion settings. Theme, filter, download, and print controls reinitialize after page swaps; category history uses the same router, preserving browser back/forward behavior and the toolbar position.
 
-The browser suite uses deterministic registry responses for rendering, cache, outage, zero-count, and transition checks. Real API/CORS data is checked separately in the browser; synthetic test totals are not evidence of current registry counts.
+The browser suite also checks navigation without document reloads, the non-native animation fallback, theme persistence after swaps, and returning to a filtered Projects page. It uses deterministic registry responses for rendering, cache, outage, zero-count, and transition checks. Real API/CORS data is checked separately in the browser; synthetic test totals are not evidence of current registry counts.
 
 ## Confidentiality
 

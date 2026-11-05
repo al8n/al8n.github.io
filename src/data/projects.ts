@@ -56,4 +56,3 @@ export const projects: Project[] = [
   { name: 'skipdb', category: 'storage', description: 'Concurrent transactions. Carefully isolated.', detail: 'An embedded in-memory MVCC database with zero-copy storage and optimistic or serializable snapshot isolation.', concepts: ['MVCC', 'Snapshot isolation', 'Zero-copy'], github: 'https://github.com/al8n/skipdb', crate: 'skipdb' },
 ];
 export const spotlight = ['tokora', 'smear', 'memberlist', 'serf'].map(name => projects.find(p => p.name === name)!);
-export const featured = [...spotlight, ...['fs4', 'skipdb'].map(name => projects.find(p => p.name === name)!)];

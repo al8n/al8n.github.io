@@ -1,4 +1,8 @@
-(() => {
+let syncFilter;
+let transition;
+function initProjects() {
+  transition?.cancel();
+  syncFilter = null;
   const controls = document.querySelector('.project-filters');
   if (!controls) return;
   controls.hidden = false;
@@ -9,7 +13,6 @@
   const collection = document.querySelector('.project-collection');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   let active = null;
-  let transition;
   function filter(value, animate = true) {
     const selected = sections.some(s => s.dataset.category === value) ? value : 'all';
     if (selected === active) return;
@@ -29,15 +32,22 @@
       );
     }
   }
-  controls.addEventListener('click', event => {
+  controls.onclick = event => {
     const button = event.target.closest('button');
     if (!button) return;
     const value = button.dataset.filter;
     if (value === active) return;
-    history.pushState(null, '', value === 'all' ? location.pathname : `#${value}`);
+    const href = value === 'all' ? location.pathname : `#${value}`;
+    const navigation = new CustomEvent('portfolio:filter-navigation', {
+      cancelable: true, detail: { href, left: scrollX, top: scrollY },
+    });
+    if (document.dispatchEvent(navigation)) history.pushState(null, '', href);
     filter(value);
-  });
-  window.addEventListener('popstate', () => filter(location.hash.slice(1)));
-  window.addEventListener('hashchange', () => filter(location.hash.slice(1)));
+  };
+  syncFilter = () => filter(location.hash.slice(1));
   filter(location.hash.slice(1), false);
-})();
+}
+window.addEventListener('popstate', () => syncFilter?.());
+window.addEventListener('hashchange', () => syncFilter?.());
+document.addEventListener('astro:page-load', initProjects);
+initProjects();

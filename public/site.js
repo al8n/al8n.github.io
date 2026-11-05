@@ -1,7 +1,9 @@
-(() => {
+const themes = ['system', 'light', 'dark'];
+const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+
+function initSite() {
   const button = document.getElementById('theme-toggle');
   const label = document.getElementById('theme-label');
-  const themes = ['system', 'light', 'dark'];
   function update() {
     const current = document.documentElement.dataset.theme || 'system';
     const next = themes[(themes.indexOf(current) + 1) % themes.length];
@@ -13,14 +15,24 @@
   if (button) {
     button.hidden = false;
     update();
-    button.addEventListener('click', () => {
+    button.onclick = () => {
       const current = document.documentElement.dataset.theme || 'system';
       const next = themes[(themes.indexOf(current) + 1) % themes.length];
       document.documentElement.dataset.theme = next;
-      try { if (next === 'system') localStorage.removeItem('al-theme'); else localStorage.setItem('al-theme', next); } catch { /* The current page still switches if storage is unavailable. */ }
+      try { if (next === 'system') localStorage.removeItem('al-theme'); else localStorage.setItem('al-theme', next); } catch { /* Theme switching works without storage. */ }
+      if (!reducedMotion.matches) button.querySelector('svg')?.animate(
+        [{ transform: 'rotate(-35deg)', opacity: .5 }, { transform: 'rotate(0)', opacity: 1 }],
+        { duration: 220, easing: 'ease-out' },
+      );
       update();
-    });
+    };
   }
   const print = document.getElementById('print-cv');
-  if (print) { print.hidden = false; print.addEventListener('click', () => window.print()); }
-})();
+  if (print) { print.hidden = false; print.onclick = () => window.print(); }
+}
+
+document.addEventListener('astro:before-swap', event => {
+  event.newDocument.documentElement.dataset.theme = document.documentElement.dataset.theme || 'system';
+});
+document.addEventListener('astro:page-load', initSite);
+initSite();

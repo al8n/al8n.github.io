@@ -59,13 +59,6 @@ body {
   font:16px/1.65 var(--sans);
   -webkit-font-smoothing:antialiased;
 }
-@keyframes page-enter {
-  from { transform:translateY(8px); }
-  to { transform:translateY(0); }
-}
-main {
-  animation:page-enter 240ms cubic-bezier(.2,.7,.2,1);
-}
 a {
   color:inherit;
   text-decoration:none;
@@ -76,6 +69,24 @@ button {
 }
 a,button {
   -webkit-tap-highlight-color:transparent;
+  transition:color 180ms ease,background-color 220ms ease,border-color 180ms ease,box-shadow 200ms ease,transform 180ms ease;
+}
+body,.site-header,.site-footer,.hero-aside,.collection-card,.contact-section {
+  transition:background-color 220ms ease,color 220ms ease,border-color 220ms ease,box-shadow 220ms ease;
+}
+.button:hover {
+  transform:translateY(-2px);
+  box-shadow:0 5px 16px var(--shadow);
+}
+.button:active,.project-filters button:active,.theme-toggle:active {
+  transform:translateY(1px) scale(.98);
+}
+.text-link span,.all-projects-link span,.project-links a span {
+  display:inline-block;
+  transition:transform 180ms ease;
+}
+.text-link:hover span,.all-projects-link:hover span,.project-links a:hover span {
+  transform:translate(2px,-2px);
 }
 a:hover {
   color:var(--accent);
@@ -186,6 +197,12 @@ svg {
   position:relative;
   padding-block:10px;
   color:var(--muted);
+  padding-inline:11px;
+  border-radius:4px;
+}
+.site-header nav>a:hover {
+  background:var(--surface);
+  color:var(--text);
 }
 .site-header nav>a[aria-current=page] {
   color:var(--text);
@@ -778,6 +795,13 @@ svg {
 }
 .collection-card:hover {
   background:var(--surface);
+  border-color:var(--accent);
+  box-shadow:0 5px 20px var(--shadow);
+}
+.collection-card .project-drawing {
+  height:135px;
+  margin:15px 0 0;
+  color:var(--accent);
 }
 .collection-spotlight {
   background:var(--surface);
@@ -955,6 +979,45 @@ svg {
   color:var(--muted);
   line-height:1.95;
   margin-top:21px;
+}
+.cv-context,.experience-overview {
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.9;
+  margin-top:18px;
+}
+.expertise-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:24px 32px;
+  margin-top:28px;
+}
+.expertise-grid h3,.education-award h3 {
+  font-size:15px;
+}
+.expertise-grid p,.education-award p {
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.85;
+  margin-top:8px;
+}
+.cv-project-link {
+  display:inline-block;
+  margin-top:22px;
+}
+.education-award {
+  border-left:2px solid var(--accent);
+  margin-top:24px;
+  padding:3px 0 3px 18px;
+}
+.experience-copy .tags {
+  margin-top:15px;
+}
+.experience-copy .tags li {
+  font-size:10px;
+}
+@media(max-width:600px) {
+  .expertise-grid { grid-template-columns:1fr; }
 }
 .skills-note {
   font-size:12px;

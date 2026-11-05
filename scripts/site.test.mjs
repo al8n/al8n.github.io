@@ -1,13 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { projects, categories, featured, spotlight } from '../src/data/projects.ts';
+import { projects, categories, spotlight } from '../src/data/projects.ts';
 import { profile } from '../src/data/profile.ts';
 import { experience } from '../src/data/experience.ts';
 import { renderDocument, escape } from '../src/components/render.ts';
 test('public project collection has unique identities and valid category membership', () => {
   assert.equal(projects.length,31);
   assert.equal(new Set(projects.map(p=>p.name)).size,31);
-  assert.equal(featured.length,6);
   for(const p of projects) {
     assert.ok(categories.some(c=>c.id===p.category));
     if (p.github) assert.ok(new URL(p.github).pathname.startsWith('/al8n/'));
@@ -48,11 +47,26 @@ test('Discord categories retain their projects and each project has its own card
   assert.ok(!privateCard.includes('href='));
   assert.equal(projects.find(p=>p.name==='pql').github,undefined);
 });
-test('homepage gives the four priority projects independent spotlight cards', () => {
+test('project presentations stay in Projects while Overview and CV focus on the person', () => {
   assert.deepEqual(spotlight.map(p=>p.name),['tokora','smear','memberlist','serf']);
-  const html=renderDocument('/');
-  assert.deepEqual([...html.matchAll(/class="featured-card[^>]*data-project="([^"]+)"/g)].map(m=>m[1]),spotlight.map(p=>p.name));
-  assert.ok(!html.includes('class="project-row"'));
+  for(const route of ['/','/cv/']) {
+    const html=renderDocument(route);
+    assert.ok(!html.includes('data-project='));
+    assert.ok(!html.includes('/downloads.js'));
+    assert.ok(html.includes('href="/projects/"'));
+  }
+  const html=renderDocument('/projects/');
+  assert.equal((html.match(/class="project-drawing/g)||[]).length,4);
+});
+test('CV keeps detailed, public-safe role context and education', () => {
+  const html=renderDocument('/cv/');
+  for(const entry of experience) {
+    assert.ok(entry.overview.length>80);
+    assert.ok(html.includes(escape(entry.overview)));
+    assert.ok(entry.scope.length>=3);
+  }
+  assert.ok(html.includes(escape(profile.education.award)));
+  assert.ok(html.includes('expertise-grid'));
 });
 
 test('public cards use primary-crate download statistics and private cards make no registry request', () => {
@@ -62,6 +76,6 @@ test('public cards use primary-crate download statistics and private cards make 
   assert.ok(!collection.includes('data-crate="pql"'));
   assert.ok(!collection.includes('data-download-recent'));
   assert.ok(!collection.includes('Last 90 days'));
-  assert.equal((renderDocument('/').match(/class="project-downloads"/g)||[]).length,4);
+  assert.equal((renderDocument('/').match(/class="project-downloads"/g)||[]).length,0);
   assert.ok(!renderDocument('/cv/').includes('/downloads.js'));
 });
