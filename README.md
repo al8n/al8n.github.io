@@ -146,3 +146,9 @@ Set `PUBLIC_CONTENT_APPROVED` to `false` to pause publication while keeping veri
 After a deployment, verify `/`, `/projects/`, `/cv/`, `/resume.pdf`, and a missing route. The workflow's completed deployment and the live responses are the release evidence. Screenshots and the browser report are retained for seven days in the run's `browser-review` artifact.
 
 The Astro site is `https://al8n.github.io`, with no repository base prefix. Page routes use trailing slashes, and `404.html` is emitted at the root. Keep the Pages source set to Actions so the old automatic Jekyll build does not process the source tree.
+
+## Design previews and account totals
+
+Compare Studio, Terminal, and Editorial at /designs/. Each preview provides Overview, Projects, and CV pages with shared public content. Preview pages are marked noindex.
+
+The account summary adds stars across all public repositories owned by al8n (including forks) and downloads across all crates listed for crates.io user 119762, across all versions. It is independent of the 30 public project cards. Both APIs are fully paginated. The initial HTML includes a checked-date snapshot, refreshed by the existing browser caches. Run `node scripts/snapshot-project-metrics.mjs` to refresh the project and account snapshots together.

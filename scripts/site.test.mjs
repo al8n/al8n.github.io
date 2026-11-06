@@ -52,7 +52,8 @@ test('project presentations stay in Projects while Overview and CV focus on the 
   for(const route of ['/','/cv/']) {
     const html=renderDocument(route);
     assert.ok(!html.includes('data-project='));
-    assert.ok(!html.includes('/downloads.js'));
+    if (route === '/cv/') assert.ok(!html.includes('/downloads.js'));
+    else assert.ok(html.includes('data-account-downloads'));
     assert.ok(html.includes('href="/projects/"'));
   }
   const html=renderDocument('/projects/');

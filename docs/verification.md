@@ -1,6 +1,6 @@
 # Verification record - 2026-11-06
 
-Overview and CV contain no project cards or registry metric requests. The dedicated catalog has 31 project cards across ten categories: the nine categories in the owner's Discord screenshots plus storage engines. Thirty cards link to verified public repositories; pql exposes only its owner-provided name and category.
+Overview and CV contain no project cards. Overview now requests the complete public account totals; CV has no metric requests. The dedicated catalog has 31 project cards across ten categories: the nine categories in the owner's Discord screenshots plus storage engines. Thirty cards link to verified public repositories; pql exposes only its owner-provided name and category.
 
 | Check | Actual result |
 | --- | --- |

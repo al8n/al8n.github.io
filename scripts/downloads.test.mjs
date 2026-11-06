@@ -26,7 +26,7 @@ test('account API pagination is serial and paced, and a failed page never become
     times.push(Date.now());
     const page=Number(new URL(url).searchParams.get('page'));
     assert.equal(new URL(url).searchParams.get('user_id'),'119762');
-    return {ok:true,json:async()=>({meta:{total:101},crates:[{id:page===1?'tokora':'smear',downloads:page,recent_downloads:page}]})};
+    return {ok:true,json:async()=>({meta:{total:101},crates:page===1?Array.from({length:100},(_,i)=>({id:i?'extra-'+i:'tokora',downloads:1})):[{id:'smear',downloads:2}]})};
   });
   const snapshot=await fetchCrateStats();
   assert.equal(snapshot.stats.smear.total,2);

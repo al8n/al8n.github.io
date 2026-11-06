@@ -7,12 +7,15 @@ const out='tmp/qa'; await mkdir(out,{recursive:true});
 const browser=await chromium.launch();
 const problems=[];const results=[];
 const fixture={meta:{total:projects.filter(p=>p.github).length},crates:projects.filter(p=>p.github).map((p,index)=>({id:p.crate||p.name,downloads:p.name==='fs4'?78950878:1000+index,recent_downloads:100+index}))};
+fixture.crates.push({ id: 'account-only-crate', downloads: 999999 });
+fixture.meta.total++;
 const statsEndpoint=/^https:\/\/crates\.io\/api\/v1\/crates\?/;
 const starsEndpoint = /^https:\/\/api\.github\.com\/users\/al8n\/repos\?/;
 const starsFixture = projects.filter(p => p.github).map((p, index) => ({
  full_name: new URL(p.github).pathname.slice(1), private: false,
  stargazers_count: p.name === 'tokora' ? 9876 : index,
 }));
+starsFixture.push({ full_name: 'al8n/account-only-repo', private: false, stargazers_count: 11111 });
 const mockStars = context => context.route(starsEndpoint, route => route.fulfill({ json: starsFixture }));
 const mockStats = async context => {
  await mockStars(context);
@@ -40,6 +43,28 @@ try {
    await context.close();
   }
  }
+ for (const style of ['studio','terminal','editorial']) {
+  const review = await browser.newContext({ viewport: {width:1440,height:1050}, reducedMotion:'reduce' });
+  await mockStats(review);
+  const preview = await review.newPage();
+  preview.on('pageerror', error => problems.push(String(error)));
+  for (const width of [1440,390]) {
+   await preview.setViewportSize({width,height:1050});
+   for (const route of ['', 'projects/', 'cv/']) {
+    await preview.goto(base+'/designs/'+style+'/'+route);
+    assert.equal(await preview.locator('h1').count(),1);
+    assert.ok(await preview.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),style+' '+route+' '+width);
+    assert.equal(await preview.locator('meta[name=robots]').getAttribute('content'),'noindex,nofollow');
+    if(route==='') assert.equal(await preview.locator('[data-project]').count(),0);
+    if(route==='projects/') {
+     await preview.getByRole('button',{name:'Networking',exact:true}).click();
+     assert.equal(await preview.locator('.collection-card:visible').count(),6);
+    }
+    await preview.screenshot({path:out+'/design-'+style+'-'+(route.replace('/','')||'home')+'-'+width+'.png',fullPage:true});
+   }
+  }
+  await review.close();
+ }
  const context=await browser.newContext({viewport:{width:390,height:844},colorScheme:'light',reducedMotion:'no-preference'});
  await mockStars(context);
  let statsRequests=0;
@@ -47,7 +72,8 @@ try {
  const page=await context.newPage();
  await page.goto(base+'/');
  assert.equal(await page.locator('[data-project]').count(),0);
- assert.equal(statsRequests,0);
+ await page.waitForFunction(()=>document.querySelector('[data-account-downloads]').textContent.includes(','));
+ assert.equal(statsRequests,1);
  const toggle=page.locator('#theme-toggle');
  await toggle.click(); assert.equal(await page.locator('html').getAttribute('data-theme'),'light');
  await toggle.click(); assert.equal(await page.locator('html').getAttribute('data-theme'),'dark');
@@ -64,6 +90,11 @@ try {
  assert.equal(await page.locator('[data-crate=fs4] [data-download-total]').innerText(),'78,950,878');
  assert.equal(await page.locator('[data-project=pql] [data-crate]').count(),0);
  assert.equal(statsRequests,1,'Fresh statistics should be reused across navigation');
+ const expectedStars = starsFixture.reduce((sum, repo) => sum + repo.stargazers_count, 0).toLocaleString('en-US');
+ const expectedDownloads = fixture.crates.reduce((sum, crate) => sum + crate.downloads, 0).toLocaleString('en-US');
+ await page.waitForFunction(value => document.querySelector('[data-account-stars]').textContent === value, expectedStars);
+ assert.equal(await page.locator('[data-account-downloads]').innerText(), expectedDownloads);
+
  const names = () => page.locator('.collection-card:visible').evaluateAll(cards => cards.map(card => card.dataset.project));
  assert.deepEqual((await names()).slice(0,5), ['tokora','smear','memberlist','serf','fs4']);
  await page.getByRole('button',{name:'List',exact:true}).click();

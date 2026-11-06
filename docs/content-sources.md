@@ -56,3 +56,7 @@ The public brief is the source for Freenet, Status/Nomos, and education dates an
 Astro GitHub Pages guidance: https://docs.astro.build/en/guides/deploy/github/
 
 The deployment uses static output and the official GitHub Pages upload/deploy actions. The existing private website repository was inspected directly. Its legacy Flutter files were replaced while preserving the four earlier commits. The former legacy Pages build failed without deployment during replacement. The owner has now approved public deployment through the GitHub Actions workflow.
+
+## Account totals
+
+Source listings are https://api.github.com/users/al8n/repos?type=owner&per_page=100 and https://crates.io/api/v1/crates?user_id=119762&per_page=100. All pages are retrieved. GitHub totals sum stargazers on owned public repositories, including forks. Crate totals sum downloads for the complete ownership listing across all versions. Snapshot counts and their checked date are stored in src/data/account-metrics.json. Project-card metrics retain their individual repository and primary-crate scope.

@@ -1,5 +1,4 @@
 import { groupProjects } from './project-order.js';
-import { showStars } from './stars.js';
 
 const views = ['grid', 'list', 'categories'];
 const sorts = ['recommended', 'downloads', 'stars', 'name'];
@@ -109,7 +108,6 @@ function initProjects() {
   collection.addEventListener('metrics-updated', () => draw());
   draw();
   controls.hidden = false;
-  void showStars();
 }
 const initialized = new WeakMap();
 function onLoad() {

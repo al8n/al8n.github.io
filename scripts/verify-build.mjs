@@ -6,13 +6,17 @@ import { profile, skills } from '../src/data/profile.ts';
 import { experience } from '../src/data/experience.ts';
 import { projects } from '../src/data/projects.ts';
 const pages = ['index.html', 'projects/index.html', 'cv/index.html', '404.html'];
+for (const style of ['studio','terminal','editorial']) {
+  for (const page of ['index.html','projects/index.html','cv/index.html']) pages.push('designs/'+style+'/'+page);
+}
 let checked = 0;
 for (const page of pages) {
   const html = await readFile(`dist/${page}`, 'utf8');
   assert.equal((html.match(/<h1(?:\s|>)/g) || []).length, 1, `${page}: exactly one h1`);
   for (const expected of ['<title>', 'name="description"', 'lang="en"', 'id="main"', 'Skip to content', 'og:image:alt']) assert.ok(html.includes(expected), `${page}: missing ${expected}`);
   assert.ok(!/TODO|PLACEHOLDER|lorem ipsum/i.test(html), `${page}: unfinished content`);
-  if (page !== '404.html') assert.ok(html.includes('rel="canonical"'));
+  if (page.startsWith('designs/')) assert.ok(html.includes('noindex,nofollow'));
+  else if (page !== '404.html') assert.ok(html.includes('rel="canonical"'));
   for (const match of html.matchAll(/(?:href|src)="([^"#]+)(?:#[^"]*)?"/g)) {
     const url = match[1];
     if (!url.startsWith('/')) continue;
@@ -37,4 +41,4 @@ assert.ok(pdf.subarray(0,5).toString() === '%PDF-');
 const og = await readFile('dist/social-preview.png');
 assert.ok(og.readUInt32BE(16)===1200 && og.readUInt32BE(20)===630,'Social image dimensions');
 await access('dist/.nojekyll');
-console.log(`PASS: 4 pages, ${projects.length} projects, ${checked} internal references, anchors, JSON-LD, PDF, and social preview.`);
+console.log(`PASS: ${pages.length} pages, ${projects.length} projects, ${checked} internal references, anchors, JSON-LD, PDF, and social preview.`);

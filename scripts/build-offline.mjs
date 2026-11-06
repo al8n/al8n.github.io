@@ -1,3 +1,4 @@
+import { designDocument } from '../src/components/design-preview.ts';
 import { mkdir, rm, cp, writeFile } from 'node:fs/promises';
 import { renderDocument } from '../src/components/render.ts';
 // Same public data and render functions as the Astro pages; useful without registry access.
@@ -10,3 +11,13 @@ for (const [route, output] of [['/', 'index.html'], ['/projects/', 'projects/ind
   await writeFile(path, renderDocument(route));
 }
 console.log('Built 4 static pages from shared TypeScript renderers → dist/');
+
+for (const style of ['studio','terminal','editorial']) {
+  for (const page of ['overview','projects','cv']) {
+    const directory = 'dist/designs/'+style+(page==='overview'?'':'/'+page);
+    await mkdir(directory,{recursive:true});
+    await writeFile(directory+'/index.html',designDocument(style,page));
+  }
+}
+await mkdir('dist/designs',{recursive:true});
+await writeFile('dist/designs/index.html','<!doctype html><meta http-equiv="refresh" content="0;url=/designs/studio/"><a href="/designs/studio/">View design previews</a>');

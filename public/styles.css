@@ -2040,3 +2040,15 @@ svg {
   .project-collection[data-layout=list] .collection-card { grid-template-columns: 1fr; gap: 8px; padding: 14px 5px; }
   .project-collection[data-layout=list] .metric-pair { max-width: 320px; }
 }
+
+.account-summary { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); margin: 0 0 34px; }
+.account-stat { background: var(--bg); padding: 22px 26px; display: flex; flex-direction: column; align-items: flex-start; }
+.account-stat .metric-label { color: var(--text); font-size: 12px; }
+.account-stat strong { font: 500 clamp(30px,4vw,48px)/1.3 var(--mono); letter-spacing: -.06em; margin: 5px 0 8px; }
+.account-stat [data-metric-scope] { color: var(--muted); font-size: 12px; }
+.account-stat small { color: var(--muted); font: 10px/1.5 var(--mono); margin-top: 4px; }
+@media(max-width: 480px) {
+  .account-stat { padding: 15px; }
+  .account-stat strong { font-size: 25px; letter-spacing: -.065em; }
+  .account-stat .metric-label,.account-stat [data-metric-scope] { font-size: 10px; }
+}

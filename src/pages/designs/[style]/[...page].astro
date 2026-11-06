@@ -1,0 +1,10 @@
+---
+import { designDocument } from '../../../components/design-preview.ts';
+export function getStaticPaths() {
+  return ['studio', 'terminal', 'editorial'].flatMap(style =>
+    [undefined, 'projects', 'cv'].map(page => ({ params: { style, page } })),
+  );
+}
+const { style, page } = Astro.params;
+---
+<Fragment set:html={designDocument(style!, page || 'overview')} />
